@@ -18,7 +18,7 @@ public interface ExAccountMapper extends Mapper<ExAccount>, MySqlMapper<ExAccoun
 
 	int deleteExAccount(BigInteger exAccountId);
 
-	int batchDeleteExAccount(List<BigInteger> exAccountIdList);
+	int batchDeleteExAccount(List<BigInteger> exAccountIdList); 
 
 	int updateExAccount(ExAccount exAccount);
 
