@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.rec.dao.ExRecReconciliationMapper">
+
+	<insert id="addExRecReconciliation" parameterType="com.iss.exchange.core.rec.entity.ExRecReconciliation">
+		insert into t_ex_rec_reconciliation(creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExRecReconciliation" parameterType="java.util.List">
+		insert into t_ex_rec_reconciliation(creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExRecReconciliation" parameterType="BigInteger">
+		delete from t_ex_rec_reconciliation  where ex_rec_reconciliation_id = #{exRecReconciliationId}
+	</delete>
+
+	<delete id="batchDeleteExRecReconciliation" parameterType="java.util.List">
+		delete from t_ex_rec_reconciliation  where ex_rec_reconciliation_id in
+		<foreach collection="exRecReconciliationIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExRecReconciliation" parameterType="com.iss.exchange.core.rec.entity.ExRecReconciliation">
+		update t_ex_rec_reconciliation set 
+			<if test="exRecReconciliationId!= null">ex_rec_reconciliation_id=#{exRecReconciliationId},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_rec_reconciliation_id = #{exRecReconciliationId}
+	</update>
+
+	<select id="getExRecReconciliation" parameterType="BigInteger" resultType="com.iss.exchange.core.rec.entity.ExRecReconciliation">
+		select
+			ex_rec_reconciliation_id 	AS exRecReconciliationId,
+			creator                  	AS creator,
+			modifier                 	AS modifier,
+			create_time              	AS createTime,
+			last_modifi_time         	AS lastModifiTime
+		from t_ex_rec_reconciliation
+		where ex_rec_reconciliation_id = #{exRecReconciliationId}
+	</select>
+
+	<select id="getExRecReconciliationList" parameterType="com.iss.exchange.core.rec.entity.ExRecReconciliation" resultType="com.iss.exchange.core.rec.entity.ExRecReconciliation">
+		select
+			ex_rec_reconciliation_id 	AS exRecReconciliationId,
+			creator                  	AS creator,
+			modifier                 	AS modifier,
+			create_time              	AS createTime,
+			last_modifi_time         	AS lastModifiTime
+		from t_ex_rec_reconciliation
+		where ex_rec_reconciliation_id = #{exRecReconciliationId}
+	</select>
+
+	<resultMap id="exRecReconciliationDTO" type="com.iss.exchange.core.rec.dto.ExRecReconciliationDTO" >
+		<result column="ex_rec_reconciliation_id"  property="exRecReconciliationId"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExRecReconciliationDTO" parameterType="BigInteger" resultMap="exRecReconciliationDTO">
+		select
+			t.ex_rec_reconciliation_id 	AS ex_rec_reconciliation_id,
+			t.creator                  	AS creator,
+			t.modifier                 	AS modifier,
+			t.create_time              	AS create_time,
+			t.last_modifi_time         	AS last_modifi_time
+		from t_ex_rec_reconciliation t
+		where ex_rec_reconciliation_id = #{exRecReconciliationId}
+	</select>
+
+	<select id="getExRecReconciliationPageList" parameterType="com.iss.exchange.core.rec.entity.ExRecReconciliation" resultMap="exRecReconciliationDTO">
+		select
+			t.ex_rec_reconciliation_id 	AS ex_rec_reconciliation_id,
+			t.creator                  	AS creator,
+			t.modifier                 	AS modifier,
+			t.create_time              	AS create_time,
+			t.last_modifi_time         	AS last_modifi_time
+		from t_ex_rec_reconciliation t
+	</select>
+
+
+</mapper>

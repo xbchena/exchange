@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.pay.dao.ExPayRouteInstructionOutMapper">
+
+	<insert id="addExPayRouteInstructionOut" parameterType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOut">
+		insert into t_ex_pay_route_instruction_out(ex_pay_route_instruction_in_id,ex_bank_type_code,ex_pay_account_no,ex_agency_code,ex_tx_pack_no,ex_bank_sequence,ex_batch_status,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exPayRouteInstructionInId},''),IFNULL(#{exBankTypeCode},''),IFNULL(#{exPayAccountNo},''),IFNULL(#{exAgencyCode},''),IFNULL(#{exTxPackNo},''),IFNULL(#{exBankSequence},''),IFNULL(#{exBatchStatus},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExPayRouteInstructionOut" parameterType="java.util.List">
+		insert into t_ex_pay_route_instruction_out(ex_pay_route_instruction_in_id,ex_bank_type_code,ex_pay_account_no,ex_agency_code,ex_tx_pack_no,ex_bank_sequence,ex_batch_status,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exPayRouteInstructionInId},''),IFNULL(#{item.exBankTypeCode},''),IFNULL(#{item.exPayAccountNo},''),IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exTxPackNo},''),IFNULL(#{item.exBankSequence},''),IFNULL(#{item.exBatchStatus},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExPayRouteInstructionOut" parameterType="BigInteger">
+		delete from t_ex_pay_route_instruction_out  where ex_pay_route_instrutction_out_id = #{exPayRouteInstrutctionOutId}
+	</delete>
+
+	<delete id="batchDeleteExPayRouteInstructionOut" parameterType="java.util.List">
+		delete from t_ex_pay_route_instruction_out  where ex_pay_route_instrutction_out_id in
+		<foreach collection="exPayRouteInstrutctionOutIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExPayRouteInstructionOut" parameterType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOut">
+		update t_ex_pay_route_instruction_out set 
+			<if test="exPayRouteInstrutctionOutId!= null">ex_pay_route_instrutction_out_id=#{exPayRouteInstrutctionOutId},</if>
+			<if test="exPayRouteInstructionInId!= null">ex_pay_route_instruction_in_id=#{exPayRouteInstructionInId},</if>
+			<if test="exBankTypeCode!= null">ex_bank_type_code=#{exBankTypeCode},</if>
+			<if test="exPayAccountNo!= null">ex_pay_account_no=#{exPayAccountNo},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exTxPackNo!= null">ex_tx_pack_no=#{exTxPackNo},</if>
+			<if test="exBankSequence!= null">ex_bank_sequence=#{exBankSequence},</if>
+			<if test="exBatchStatus!= null">ex_batch_status=#{exBatchStatus},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_pay_route_instrutction_out_id = #{exPayRouteInstrutctionOutId}
+	</update>
+
+	<select id="getExPayRouteInstructionOut" parameterType="BigInteger" resultType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOut">
+		select
+			ex_pay_route_instrutction_out_id 	AS exPayRouteInstrutctionOutId,
+			ex_pay_route_instruction_in_id   	AS exPayRouteInstructionInId,
+			ex_bank_type_code                	AS exBankTypeCode,
+			ex_pay_account_no                	AS exPayAccountNo,
+			ex_agency_code                   	AS exAgencyCode,
+			ex_tx_pack_no                    	AS exTxPackNo,
+			ex_bank_sequence                 	AS exBankSequence,
+			ex_batch_status                  	AS exBatchStatus,
+			creator                          	AS creator,
+			modifier                         	AS modifier,
+			create_time                      	AS createTime,
+			last_modifi_time                 	AS lastModifiTime
+		from t_ex_pay_route_instruction_out
+		where ex_pay_route_instrutction_out_id = #{exPayRouteInstrutctionOutId}
+	</select>
+
+	<select id="getExPayRouteInstructionOutList" parameterType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOut" resultType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOut">
+		select
+			ex_pay_route_instrutction_out_id 	AS exPayRouteInstrutctionOutId,
+			ex_pay_route_instruction_in_id   	AS exPayRouteInstructionInId,
+			ex_bank_type_code                	AS exBankTypeCode,
+			ex_pay_account_no                	AS exPayAccountNo,
+			ex_agency_code                   	AS exAgencyCode,
+			ex_tx_pack_no                    	AS exTxPackNo,
+			ex_bank_sequence                 	AS exBankSequence,
+			ex_batch_status                  	AS exBatchStatus,
+			creator                          	AS creator,
+			modifier                         	AS modifier,
+			create_time                      	AS createTime,
+			last_modifi_time                 	AS lastModifiTime
+		from t_ex_pay_route_instruction_out
+		where ex_pay_route_instrutction_out_id = #{exPayRouteInstrutctionOutId}
+	</select>
+
+	<resultMap id="exPayRouteInstructionOutDTO" type="com.iss.exchange.core.pay.dto.ExPayRouteInstructionOutDTO" >
+		<result column="ex_pay_route_instrutction_out_id"  property="exPayRouteInstrutctionOutId"/>
+		<result column="ex_pay_route_instruction_in_id"  property="exPayRouteInstructionInId"/>
+		<result column="ex_bank_type_code"  property="exBankTypeCode"/>
+		<result column="ex_bank_type_desc"  property="exBankTypeDesc"/>
+		<result column="ex_pay_account_no"  property="exPayAccountNo"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_tx_pack_no"  property="exTxPackNo"/>
+		<result column="ex_bank_sequence"  property="exBankSequence"/>
+		<result column="ex_batch_status"  property="exBatchStatus"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExPayRouteInstructionOutDTO" parameterType="BigInteger" resultMap="exPayRouteInstructionOutDTO">
+		select
+			t.ex_pay_route_instrutction_out_id 	AS ex_pay_route_instrutction_out_id,
+			t.ex_pay_route_instruction_in_id   	AS ex_pay_route_instruction_in_id,
+			t.ex_bank_type_code                	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_pay_account_no                	AS ex_pay_account_no,
+			t.ex_agency_code                   	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_tx_pack_no                    	AS ex_tx_pack_no,
+			t.ex_bank_sequence                 	AS ex_bank_sequence,
+			t.ex_batch_status                  	AS ex_batch_status,
+			t.creator                          	AS creator,
+			t.modifier                         	AS modifier,
+			t.create_time                      	AS create_time,
+			t.last_modifi_time                 	AS last_modifi_time
+		from t_ex_pay_route_instruction_out t
+		where ex_pay_route_instrutction_out_id = #{exPayRouteInstrutctionOutId}
+	</select>
+
+	<select id="getExPayRouteInstructionOutPageList" parameterType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOut" resultMap="exPayRouteInstructionOutDTO">
+		select
+			t.ex_pay_route_instrutction_out_id 	AS ex_pay_route_instrutction_out_id,
+			t.ex_pay_route_instruction_in_id   	AS ex_pay_route_instruction_in_id,
+			t.ex_bank_type_code                	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_pay_account_no                	AS ex_pay_account_no,
+			t.ex_agency_code                   	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_tx_pack_no                    	AS ex_tx_pack_no,
+			t.ex_bank_sequence                 	AS ex_bank_sequence,
+			t.ex_batch_status                  	AS ex_batch_status,
+			t.creator                          	AS creator,
+			t.modifier                         	AS modifier,
+			t.create_time                      	AS create_time,
+			t.last_modifi_time                 	AS last_modifi_time
+		from t_ex_pay_route_instruction_out t
+	</select>
+
+
+</mapper>

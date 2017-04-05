@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.channel.dao.ExChannelMapper">
+
+	<insert id="addExChannel" parameterType="com.iss.exchange.core.channel.entity.ExChannel">
+		insert into t_ex_channel(ex_channel_type_code,ex_channel_name,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exChannelTypeCode},''),IFNULL(#{exChannelName},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExChannel" parameterType="java.util.List">
+		insert into t_ex_channel(ex_channel_type_code,ex_channel_name,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exChannelTypeCode},''),IFNULL(#{item.exChannelName},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExChannel" parameterType="String">
+		delete from t_ex_channel  where ex_channel_code = #{exChannelCode}
+	</delete>
+
+	<delete id="batchDeleteExChannel" parameterType="java.util.List">
+		delete from t_ex_channel  where ex_channel_code in
+		<foreach collection="exChannelCodeList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExChannel" parameterType="com.iss.exchange.core.channel.entity.ExChannel">
+		update t_ex_channel set 
+			<if test="exChannelCode!= null">ex_channel_code=#{exChannelCode},</if>
+			<if test="exChannelTypeCode!= null">ex_channel_type_code=#{exChannelTypeCode},</if>
+			<if test="exChannelName!= null">ex_channel_name=#{exChannelName},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_channel_code = #{exChannelCode}
+	</update>
+
+	<select id="getExChannel" parameterType="String" resultType="com.iss.exchange.core.channel.entity.ExChannel">
+		select
+			ex_channel_code      	AS exChannelCode,
+			ex_channel_type_code 	AS exChannelTypeCode,
+			ex_channel_name      	AS exChannelName,
+			creator              	AS creator,
+			modifier             	AS modifier,
+			create_time          	AS createTime,
+			last_modifi_time     	AS lastModifiTime
+		from t_ex_channel
+		where ex_channel_code = #{exChannelCode}
+	</select>
+
+	<select id="getExChannelList" parameterType="com.iss.exchange.core.channel.entity.ExChannel" resultType="com.iss.exchange.core.channel.entity.ExChannel">
+		select
+			ex_channel_code      	AS exChannelCode,
+			ex_channel_type_code 	AS exChannelTypeCode,
+			ex_channel_name      	AS exChannelName,
+			creator              	AS creator,
+			modifier             	AS modifier,
+			create_time          	AS createTime,
+			last_modifi_time     	AS lastModifiTime
+		from t_ex_channel
+		where ex_channel_code = #{exChannelCode}
+	</select>
+
+	<resultMap id="exChannelDTO" type="com.iss.exchange.core.channel.dto.ExChannelDTO" >
+		<result column="ex_channel_code"  property="exChannelCode"/>
+		<result column="ex_channel_desc"  property="exChannelDesc"/>
+		<result column="ex_channel_type_code"  property="exChannelTypeCode"/>
+		<result column="ex_channel_type_desc"  property="exChannelTypeDesc"/>
+		<result column="ex_channel_name"  property="exChannelName"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExChannelDTO" parameterType="String" resultMap="exChannelDTO">
+		select
+			t.ex_channel_code      	AS ex_channel_code,
+			(select code_desc from  where code_type = 'exChannelCode' and code = t.ex_channel_code)	AS ex_channel_desc,
+			t.ex_channel_type_code 	AS ex_channel_type_code,
+			(select code_desc from  where code_type = 'exChannelTypeCode' and code = t.ex_channel_type_code)	AS ex_channel_type_desc,
+			t.ex_channel_name      	AS ex_channel_name,
+			t.creator              	AS creator,
+			t.modifier             	AS modifier,
+			t.create_time          	AS create_time,
+			t.last_modifi_time     	AS last_modifi_time
+		from t_ex_channel t
+		where ex_channel_code = #{exChannelCode}
+	</select>
+
+	<select id="getExChannelPageList" parameterType="com.iss.exchange.core.channel.entity.ExChannel" resultMap="exChannelDTO">
+		select
+			t.ex_channel_code      	AS ex_channel_code,
+			(select code_desc from  where code_type = 'exChannelCode' and code = t.ex_channel_code)	AS ex_channel_desc,
+			t.ex_channel_type_code 	AS ex_channel_type_code,
+			(select code_desc from  where code_type = 'exChannelTypeCode' and code = t.ex_channel_type_code)	AS ex_channel_type_desc,
+			t.ex_channel_name      	AS ex_channel_name,
+			t.creator              	AS creator,
+			t.modifier             	AS modifier,
+			t.create_time          	AS create_time,
+			t.last_modifi_time     	AS last_modifi_time
+		from t_ex_channel t
+	</select>
+
+
+</mapper>

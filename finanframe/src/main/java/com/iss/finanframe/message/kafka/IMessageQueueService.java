@@ -1,7 +1,6 @@
 package com.iss.finanframe.message.kafka;
 
 /**
- * User: change.long
  * Date: 16/3/28
  * Time: 上午9:39
  */

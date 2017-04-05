@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.pay.dao.ExPayBatchInstructionIntMapper">
+
+	<insert id="addExPayBatchInstructionInt" parameterType="com.iss.exchange.core.pay.entity.ExPayBatchInstructionInt">
+		insert into t_ex_pay_batch_instruction_int(ex_version,ex_tx_time,ex_agency_code,ex_agency_name,ex_login_id,ex_login_pwd,ex_tx_pack_no,ex_pay_account_no,ex_pay_account_name,ex_pay_branch_name,ex_pay_branch_type,ex_pay_provice_name,ex_pay_city_name,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exVersion},''),IFNULL(#{exTxTime},''),IFNULL(#{exAgencyCode},''),IFNULL(#{exAgencyName},''),IFNULL(#{exLoginId},''),IFNULL(#{exLoginPwd},''),IFNULL(#{exTxPackNo},''),IFNULL(#{exPayAccountNo},''),IFNULL(#{exPayAccountName},''),IFNULL(#{exPayBranchName},''),IFNULL(#{exPayBranchType},''),IFNULL(#{exPayProviceName},''),IFNULL(#{exPayCityName},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExPayBatchInstructionInt" parameterType="java.util.List">
+		insert into t_ex_pay_batch_instruction_int(ex_version,ex_tx_time,ex_agency_code,ex_agency_name,ex_login_id,ex_login_pwd,ex_tx_pack_no,ex_pay_account_no,ex_pay_account_name,ex_pay_branch_name,ex_pay_branch_type,ex_pay_provice_name,ex_pay_city_name,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exVersion},''),IFNULL(#{item.exTxTime},''),IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exAgencyName},''),IFNULL(#{item.exLoginId},''),IFNULL(#{item.exLoginPwd},''),IFNULL(#{item.exTxPackNo},''),IFNULL(#{item.exPayAccountNo},''),IFNULL(#{item.exPayAccountName},''),IFNULL(#{item.exPayBranchName},''),IFNULL(#{item.exPayBranchType},''),IFNULL(#{item.exPayProviceName},''),IFNULL(#{item.exPayCityName},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExPayBatchInstructionInt" parameterType="BigInteger">
+		delete from t_ex_pay_batch_instruction_int  where ex_pay_batch_instruction_in_id = #{exPayBatchInstructionInId}
+	</delete>
+
+	<delete id="batchDeleteExPayBatchInstructionInt" parameterType="java.util.List">
+		delete from t_ex_pay_batch_instruction_int  where ex_pay_batch_instruction_in_id in
+		<foreach collection="exPayBatchInstructionInIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExPayBatchInstructionInt" parameterType="com.iss.exchange.core.pay.entity.ExPayBatchInstructionInt">
+		update t_ex_pay_batch_instruction_int set 
+			<if test="exPayBatchInstructionInId!= null">ex_pay_batch_instruction_in_id=#{exPayBatchInstructionInId},</if>
+			<if test="exVersion!= null">ex_version=#{exVersion},</if>
+			<if test="exTxTime!= null">ex_tx_time=#{exTxTime},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exAgencyName!= null">ex_agency_name=#{exAgencyName},</if>
+			<if test="exLoginId!= null">ex_login_id=#{exLoginId},</if>
+			<if test="exLoginPwd!= null">ex_login_pwd=#{exLoginPwd},</if>
+			<if test="exTxPackNo!= null">ex_tx_pack_no=#{exTxPackNo},</if>
+			<if test="exPayAccountNo!= null">ex_pay_account_no=#{exPayAccountNo},</if>
+			<if test="exPayAccountName!= null">ex_pay_account_name=#{exPayAccountName},</if>
+			<if test="exPayBranchName!= null">ex_pay_branch_name=#{exPayBranchName},</if>
+			<if test="exPayBranchType!= null">ex_pay_branch_type=#{exPayBranchType},</if>
+			<if test="exPayProviceName!= null">ex_pay_provice_name=#{exPayProviceName},</if>
+			<if test="exPayCityName!= null">ex_pay_city_name=#{exPayCityName},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_pay_batch_instruction_in_id = #{exPayBatchInstructionInId}
+	</update>
+
+	<select id="getExPayBatchInstructionInt" parameterType="BigInteger" resultType="com.iss.exchange.core.pay.entity.ExPayBatchInstructionInt">
+		select
+			ex_pay_batch_instruction_in_id 	AS exPayBatchInstructionInId,
+			ex_version                     	AS exVersion,
+			ex_tx_time                     	AS exTxTime,
+			ex_agency_code                 	AS exAgencyCode,
+			ex_agency_name                 	AS exAgencyName,
+			ex_login_id                    	AS exLoginId,
+			ex_login_pwd                   	AS exLoginPwd,
+			ex_tx_pack_no                  	AS exTxPackNo,
+			ex_pay_account_no              	AS exPayAccountNo,
+			ex_pay_account_name            	AS exPayAccountName,
+			ex_pay_branch_name             	AS exPayBranchName,
+			ex_pay_branch_type             	AS exPayBranchType,
+			ex_pay_provice_name            	AS exPayProviceName,
+			ex_pay_city_name               	AS exPayCityName,
+			creator                        	AS creator,
+			modifier                       	AS modifier,
+			create_time                    	AS createTime,
+			last_modifi_time               	AS lastModifiTime
+		from t_ex_pay_batch_instruction_int
+		where ex_pay_batch_instruction_in_id = #{exPayBatchInstructionInId}
+	</select>
+
+	<select id="getExPayBatchInstructionIntList" parameterType="com.iss.exchange.core.pay.entity.ExPayBatchInstructionInt" resultType="com.iss.exchange.core.pay.entity.ExPayBatchInstructionInt">
+		select
+			ex_pay_batch_instruction_in_id 	AS exPayBatchInstructionInId,
+			ex_version                     	AS exVersion,
+			ex_tx_time                     	AS exTxTime,
+			ex_agency_code                 	AS exAgencyCode,
+			ex_agency_name                 	AS exAgencyName,
+			ex_login_id                    	AS exLoginId,
+			ex_login_pwd                   	AS exLoginPwd,
+			ex_tx_pack_no                  	AS exTxPackNo,
+			ex_pay_account_no              	AS exPayAccountNo,
+			ex_pay_account_name            	AS exPayAccountName,
+			ex_pay_branch_name             	AS exPayBranchName,
+			ex_pay_branch_type             	AS exPayBranchType,
+			ex_pay_provice_name            	AS exPayProviceName,
+			ex_pay_city_name               	AS exPayCityName,
+			creator                        	AS creator,
+			modifier                       	AS modifier,
+			create_time                    	AS createTime,
+			last_modifi_time               	AS lastModifiTime
+		from t_ex_pay_batch_instruction_int
+		where ex_pay_batch_instruction_in_id = #{exPayBatchInstructionInId}
+	</select>
+
+	<resultMap id="exPayBatchInstructionIntDTO" type="com.iss.exchange.core.pay.dto.ExPayBatchInstructionIntDTO" >
+		<result column="ex_pay_batch_instruction_in_id"  property="exPayBatchInstructionInId"/>
+		<result column="ex_version"  property="exVersion"/>
+		<result column="ex_tx_time"  property="exTxTime"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_agency_name"  property="exAgencyName"/>
+		<result column="ex_login_id"  property="exLoginId"/>
+		<result column="ex_login_pwd"  property="exLoginPwd"/>
+		<result column="ex_tx_pack_no"  property="exTxPackNo"/>
+		<result column="ex_pay_account_no"  property="exPayAccountNo"/>
+		<result column="ex_pay_account_name"  property="exPayAccountName"/>
+		<result column="ex_pay_branch_name"  property="exPayBranchName"/>
+		<result column="ex_pay_branch_type"  property="exPayBranchType"/>
+		<result column="ex_pay_provice_name"  property="exPayProviceName"/>
+		<result column="ex_pay_city_name"  property="exPayCityName"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExPayBatchInstructionIntDTO" parameterType="BigInteger" resultMap="exPayBatchInstructionIntDTO">
+		select
+			t.ex_pay_batch_instruction_in_id 	AS ex_pay_batch_instruction_in_id,
+			t.ex_version                     	AS ex_version,
+			t.ex_tx_time                     	AS ex_tx_time,
+			t.ex_agency_code                 	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_agency_name                 	AS ex_agency_name,
+			t.ex_login_id                    	AS ex_login_id,
+			t.ex_login_pwd                   	AS ex_login_pwd,
+			t.ex_tx_pack_no                  	AS ex_tx_pack_no,
+			t.ex_pay_account_no              	AS ex_pay_account_no,
+			t.ex_pay_account_name            	AS ex_pay_account_name,
+			t.ex_pay_branch_name             	AS ex_pay_branch_name,
+			t.ex_pay_branch_type             	AS ex_pay_branch_type,
+			t.ex_pay_provice_name            	AS ex_pay_provice_name,
+			t.ex_pay_city_name               	AS ex_pay_city_name,
+			t.creator                        	AS creator,
+			t.modifier                       	AS modifier,
+			t.create_time                    	AS create_time,
+			t.last_modifi_time               	AS last_modifi_time
+		from t_ex_pay_batch_instruction_int t
+		where ex_pay_batch_instruction_in_id = #{exPayBatchInstructionInId}
+	</select>
+
+	<select id="getExPayBatchInstructionIntPageList" parameterType="com.iss.exchange.core.pay.entity.ExPayBatchInstructionInt" resultMap="exPayBatchInstructionIntDTO">
+		select
+			t.ex_pay_batch_instruction_in_id 	AS ex_pay_batch_instruction_in_id,
+			t.ex_version                     	AS ex_version,
+			t.ex_tx_time                     	AS ex_tx_time,
+			t.ex_agency_code                 	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_agency_name                 	AS ex_agency_name,
+			t.ex_login_id                    	AS ex_login_id,
+			t.ex_login_pwd                   	AS ex_login_pwd,
+			t.ex_tx_pack_no                  	AS ex_tx_pack_no,
+			t.ex_pay_account_no              	AS ex_pay_account_no,
+			t.ex_pay_account_name            	AS ex_pay_account_name,
+			t.ex_pay_branch_name             	AS ex_pay_branch_name,
+			t.ex_pay_branch_type             	AS ex_pay_branch_type,
+			t.ex_pay_provice_name            	AS ex_pay_provice_name,
+			t.ex_pay_city_name               	AS ex_pay_city_name,
+			t.creator                        	AS creator,
+			t.modifier                       	AS modifier,
+			t.create_time                    	AS create_time,
+			t.last_modifi_time               	AS last_modifi_time
+		from t_ex_pay_batch_instruction_int t
+	</select>
+
+
+</mapper>

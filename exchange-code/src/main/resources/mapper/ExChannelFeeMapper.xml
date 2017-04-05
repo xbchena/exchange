@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.channel.dao.ExChannelFeeMapper">
+
+	<insert id="addExChannelFee" parameterType="com.iss.exchange.core.channel.entity.ExChannelFee">
+		insert into t_ex_channel_fee(ex_agency_code,ex_channel_code,ex_channel_fee_name,record_status,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exAgencyCode},''),IFNULL(#{exChannelCode},''),IFNULL(#{exChannelFeeName},''),IFNULL(#{recordStatus},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExChannelFee" parameterType="java.util.List">
+		insert into t_ex_channel_fee(ex_agency_code,ex_channel_code,ex_channel_fee_name,record_status,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exChannelCode},''),IFNULL(#{item.exChannelFeeName},''),IFNULL(#{item.recordStatus},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExChannelFee" parameterType="String">
+		delete from t_ex_channel_fee  where ex_channel_fee_code = #{exChannelFeeCode}
+	</delete>
+
+	<delete id="batchDeleteExChannelFee" parameterType="java.util.List">
+		delete from t_ex_channel_fee  where ex_channel_fee_code in
+		<foreach collection="exChannelFeeCodeList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExChannelFee" parameterType="com.iss.exchange.core.channel.entity.ExChannelFee">
+		update t_ex_channel_fee set 
+			<if test="exChannelFeeCode!= null">ex_channel_fee_code=#{exChannelFeeCode},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exChannelCode!= null">ex_channel_code=#{exChannelCode},</if>
+			<if test="exChannelFeeName!= null">ex_channel_fee_name=#{exChannelFeeName},</if>
+			<if test="recordStatus!= null">record_status=#{recordStatus},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_channel_fee_code = #{exChannelFeeCode}
+	</update>
+
+	<select id="getExChannelFee" parameterType="String" resultType="com.iss.exchange.core.channel.entity.ExChannelFee">
+		select
+			ex_channel_fee_code 	AS exChannelFeeCode,
+			ex_agency_code      	AS exAgencyCode,
+			ex_channel_code     	AS exChannelCode,
+			ex_channel_fee_name 	AS exChannelFeeName,
+			record_status       	AS recordStatus,
+			creator             	AS creator,
+			modifier            	AS modifier,
+			create_time         	AS createTime,
+			last_modifi_time    	AS lastModifiTime
+		from t_ex_channel_fee
+		where ex_channel_fee_code = #{exChannelFeeCode}
+	</select>
+
+	<select id="getExChannelFeeList" parameterType="com.iss.exchange.core.channel.entity.ExChannelFee" resultType="com.iss.exchange.core.channel.entity.ExChannelFee">
+		select
+			ex_channel_fee_code 	AS exChannelFeeCode,
+			ex_agency_code      	AS exAgencyCode,
+			ex_channel_code     	AS exChannelCode,
+			ex_channel_fee_name 	AS exChannelFeeName,
+			record_status       	AS recordStatus,
+			creator             	AS creator,
+			modifier            	AS modifier,
+			create_time         	AS createTime,
+			last_modifi_time    	AS lastModifiTime
+		from t_ex_channel_fee
+		where ex_channel_fee_code = #{exChannelFeeCode}
+	</select>
+
+	<resultMap id="exChannelFeeDTO" type="com.iss.exchange.core.channel.dto.ExChannelFeeDTO" >
+		<result column="ex_channel_fee_code"  property="exChannelFeeCode"/>
+		<result column="ex_channel_fee_desc"  property="exChannelFeeDesc"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_channel_code"  property="exChannelCode"/>
+		<result column="ex_channel_desc"  property="exChannelDesc"/>
+		<result column="ex_channel_fee_name"  property="exChannelFeeName"/>
+		<result column="record_status"  property="recordStatus"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExChannelFeeDTO" parameterType="String" resultMap="exChannelFeeDTO">
+		select
+			t.ex_channel_fee_code 	AS ex_channel_fee_code,
+			(select code_desc from  where code_type = 'exChannelFeeCode' and code = t.ex_channel_fee_code)	AS ex_channel_fee_desc,
+			t.ex_agency_code      	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_channel_code     	AS ex_channel_code,
+			(select code_desc from  where code_type = 'exChannelCode' and code = t.ex_channel_code)	AS ex_channel_desc,
+			t.ex_channel_fee_name 	AS ex_channel_fee_name,
+			t.record_status       	AS record_status,
+			t.creator             	AS creator,
+			t.modifier            	AS modifier,
+			t.create_time         	AS create_time,
+			t.last_modifi_time    	AS last_modifi_time
+		from t_ex_channel_fee t
+		where ex_channel_fee_code = #{exChannelFeeCode}
+	</select>
+
+	<select id="getExChannelFeePageList" parameterType="com.iss.exchange.core.channel.entity.ExChannelFee" resultMap="exChannelFeeDTO">
+		select
+			t.ex_channel_fee_code 	AS ex_channel_fee_code,
+			(select code_desc from  where code_type = 'exChannelFeeCode' and code = t.ex_channel_fee_code)	AS ex_channel_fee_desc,
+			t.ex_agency_code      	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_channel_code     	AS ex_channel_code,
+			(select code_desc from  where code_type = 'exChannelCode' and code = t.ex_channel_code)	AS ex_channel_desc,
+			t.ex_channel_fee_name 	AS ex_channel_fee_name,
+			t.record_status       	AS record_status,
+			t.creator             	AS creator,
+			t.modifier            	AS modifier,
+			t.create_time         	AS create_time,
+			t.last_modifi_time    	AS last_modifi_time
+		from t_ex_channel_fee t
+	</select>
+
+
+</mapper>

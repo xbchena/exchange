@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.channel.dao.ExChannelAbilityMapper">
+
+	<insert id="addExChannelAbility" parameterType="com.iss.exchange.core.channel.entity.ExChannelAbility">
+		insert into t_ex_channel_ability(ex_agency_code,ex_channel_code,product_type,ex_opp_account_type,ex_opp_bank_type_code,interface_type,maxamt_each_trans,maxamt_each_day,window_type,window_start,window_end,record_status,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exAgencyCode},''),IFNULL(#{exChannelCode},''),IFNULL(#{productType},''),IFNULL(#{exOppAccountType},''),IFNULL(#{exOppBankTypeCode},''),IFNULL(#{interfaceType},''),IFNULL(#{maxamtEachTrans},''),IFNULL(#{maxamtEachDay},''),IFNULL(#{windowType},''),#{windowStart},#{windowEnd},IFNULL(#{recordStatus},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExChannelAbility" parameterType="java.util.List">
+		insert into t_ex_channel_ability(ex_agency_code,ex_channel_code,product_type,ex_opp_account_type,ex_opp_bank_type_code,interface_type,maxamt_each_trans,maxamt_each_day,window_type,window_start,window_end,record_status,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exChannelCode},''),IFNULL(#{item.productType},''),IFNULL(#{item.exOppAccountType},''),IFNULL(#{item.exOppBankTypeCode},''),IFNULL(#{item.interfaceType},''),IFNULL(#{item.maxamtEachTrans},''),IFNULL(#{item.maxamtEachDay},''),IFNULL(#{item.windowType},''),#{item.windowStart},#{item.windowEnd},IFNULL(#{item.recordStatus},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExChannelAbility" parameterType="BigInteger">
+		delete from t_ex_channel_ability  where ex_channel_ability_id = #{exChannelAbilityId}
+	</delete>
+
+	<delete id="batchDeleteExChannelAbility" parameterType="java.util.List">
+		delete from t_ex_channel_ability  where ex_channel_ability_id in
+		<foreach collection="exChannelAbilityIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExChannelAbility" parameterType="com.iss.exchange.core.channel.entity.ExChannelAbility">
+		update t_ex_channel_ability set 
+			<if test="exChannelAbilityId!= null">ex_channel_ability_id=#{exChannelAbilityId},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exChannelCode!= null">ex_channel_code=#{exChannelCode},</if>
+			<if test="productType!= null">product_type=#{productType},</if>
+			<if test="exOppAccountType!= null">ex_opp_account_type=#{exOppAccountType},</if>
+			<if test="exOppBankTypeCode!= null">ex_opp_bank_type_code=#{exOppBankTypeCode},</if>
+			<if test="interfaceType!= null">interface_type=#{interfaceType},</if>
+			<if test="maxamtEachTrans!= null">maxamt_each_trans=#{maxamtEachTrans},</if>
+			<if test="maxamtEachDay!= null">maxamt_each_day=#{maxamtEachDay},</if>
+			<if test="windowType!= null">window_type=#{windowType},</if>
+			<if test="windowStart!= null">window_start=#{windowStart},</if>
+			<if test="windowEnd!= null">window_end=#{windowEnd},</if>
+			<if test="recordStatus!= null">record_status=#{recordStatus},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_channel_ability_id = #{exChannelAbilityId}
+	</update>
+
+	<select id="getExChannelAbility" parameterType="BigInteger" resultType="com.iss.exchange.core.channel.entity.ExChannelAbility">
+		select
+			ex_channel_ability_id 	AS exChannelAbilityId,
+			ex_agency_code        	AS exAgencyCode,
+			ex_channel_code       	AS exChannelCode,
+			product_type          	AS productType,
+			ex_opp_account_type   	AS exOppAccountType,
+			ex_opp_bank_type_code 	AS exOppBankTypeCode,
+			interface_type        	AS interfaceType,
+			maxamt_each_trans     	AS maxamtEachTrans,
+			maxamt_each_day       	AS maxamtEachDay,
+			window_type           	AS windowType,
+			window_start          	AS windowStart,
+			window_end            	AS windowEnd,
+			record_status         	AS recordStatus,
+			creator               	AS creator,
+			modifier              	AS modifier,
+			create_time           	AS createTime,
+			last_modifi_time      	AS lastModifiTime
+		from t_ex_channel_ability
+		where ex_channel_ability_id = #{exChannelAbilityId}
+	</select>
+
+	<select id="getExChannelAbilityList" parameterType="com.iss.exchange.core.channel.entity.ExChannelAbility" resultType="com.iss.exchange.core.channel.entity.ExChannelAbility">
+		select
+			ex_channel_ability_id 	AS exChannelAbilityId,
+			ex_agency_code        	AS exAgencyCode,
+			ex_channel_code       	AS exChannelCode,
+			product_type          	AS productType,
+			ex_opp_account_type   	AS exOppAccountType,
+			ex_opp_bank_type_code 	AS exOppBankTypeCode,
+			interface_type        	AS interfaceType,
+			maxamt_each_trans     	AS maxamtEachTrans,
+			maxamt_each_day       	AS maxamtEachDay,
+			window_type           	AS windowType,
+			window_start          	AS windowStart,
+			window_end            	AS windowEnd,
+			record_status         	AS recordStatus,
+			creator               	AS creator,
+			modifier              	AS modifier,
+			create_time           	AS createTime,
+			last_modifi_time      	AS lastModifiTime
+		from t_ex_channel_ability
+		where ex_channel_ability_id = #{exChannelAbilityId}
+	</select>
+
+	<resultMap id="exChannelAbilityDTO" type="com.iss.exchange.core.channel.dto.ExChannelAbilityDTO" >
+		<result column="ex_channel_ability_id"  property="exChannelAbilityId"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_channel_code"  property="exChannelCode"/>
+		<result column="ex_channel_desc"  property="exChannelDesc"/>
+		<result column="product_type"  property="productType"/>
+		<result column="ex_opp_account_type"  property="exOppAccountType"/>
+		<result column="ex_opp_bank_type_code"  property="exOppBankTypeCode"/>
+		<result column="ex_opp_bank_type_desc"  property="exOppBankTypeDesc"/>
+		<result column="interface_type"  property="interfaceType"/>
+		<result column="maxamt_each_trans"  property="maxamtEachTrans"/>
+		<result column="maxamt_each_day"  property="maxamtEachDay"/>
+		<result column="window_type"  property="windowType"/>
+		<result column="window_start"  property="windowStart"/>
+		<result column="window_end"  property="windowEnd"/>
+		<result column="record_status"  property="recordStatus"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExChannelAbilityDTO" parameterType="BigInteger" resultMap="exChannelAbilityDTO">
+		select
+			t.ex_channel_ability_id 	AS ex_channel_ability_id,
+			t.ex_agency_code        	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_channel_code       	AS ex_channel_code,
+			(select code_desc from  where code_type = 'exChannelCode' and code = t.ex_channel_code)	AS ex_channel_desc,
+			t.product_type          	AS product_type,
+			t.ex_opp_account_type   	AS ex_opp_account_type,
+			t.ex_opp_bank_type_code 	AS ex_opp_bank_type_code,
+			(select code_desc from  where code_type = 'exOppBankTypeCode' and code = t.ex_opp_bank_type_code)	AS ex_opp_bank_type_desc,
+			t.interface_type        	AS interface_type,
+			t.maxamt_each_trans     	AS maxamt_each_trans,
+			t.maxamt_each_day       	AS maxamt_each_day,
+			t.window_type           	AS window_type,
+			t.window_start          	AS window_start,
+			t.window_end            	AS window_end,
+			t.record_status         	AS record_status,
+			t.creator               	AS creator,
+			t.modifier              	AS modifier,
+			t.create_time           	AS create_time,
+			t.last_modifi_time      	AS last_modifi_time
+		from t_ex_channel_ability t
+		where ex_channel_ability_id = #{exChannelAbilityId}
+	</select>
+
+	<select id="getExChannelAbilityPageList" parameterType="com.iss.exchange.core.channel.entity.ExChannelAbility" resultMap="exChannelAbilityDTO">
+		select
+			t.ex_channel_ability_id 	AS ex_channel_ability_id,
+			t.ex_agency_code        	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_channel_code       	AS ex_channel_code,
+			(select code_desc from  where code_type = 'exChannelCode' and code = t.ex_channel_code)	AS ex_channel_desc,
+			t.product_type          	AS product_type,
+			t.ex_opp_account_type   	AS ex_opp_account_type,
+			t.ex_opp_bank_type_code 	AS ex_opp_bank_type_code,
+			(select code_desc from  where code_type = 'exOppBankTypeCode' and code = t.ex_opp_bank_type_code)	AS ex_opp_bank_type_desc,
+			t.interface_type        	AS interface_type,
+			t.maxamt_each_trans     	AS maxamt_each_trans,
+			t.maxamt_each_day       	AS maxamt_each_day,
+			t.window_type           	AS window_type,
+			t.window_start          	AS window_start,
+			t.window_end            	AS window_end,
+			t.record_status         	AS record_status,
+			t.creator               	AS creator,
+			t.modifier              	AS modifier,
+			t.create_time           	AS create_time,
+			t.last_modifi_time      	AS last_modifi_time
+		from t_ex_channel_ability t
+	</select>
+
+
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.common.dao.ExBankFrontMapper">
+
+	<insert id="addExBankFront" parameterType="com.iss.exchange.core.common.entity.ExBankFront">
+		insert into t_ex_bank_front(ex_agency_code,ex_bank_type_code) 
+		values(IFNULL(#{exAgencyCode},''),IFNULL(#{exBankTypeCode},''))
+	</insert>
+
+	<insert id="batchAddExBankFront" parameterType="java.util.List">
+		insert into t_ex_bank_front(ex_agency_code,ex_bank_type_code)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exBankTypeCode},''))
+		</foreach>
+	</insert>
+
+	<delete id="deleteExBankFront" parameterType="BigInteger">
+		delete from t_ex_bank_front  where ex_bank_front_id = #{exBankFrontId}
+	</delete>
+
+	<delete id="batchDeleteExBankFront" parameterType="java.util.List">
+		delete from t_ex_bank_front  where ex_bank_front_id in
+		<foreach collection="exBankFrontIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExBankFront" parameterType="com.iss.exchange.core.common.entity.ExBankFront">
+		update t_ex_bank_front set 
+			<if test="exBankFrontId!= null">ex_bank_front_id=#{exBankFrontId},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exBankTypeCode!= null">ex_bank_type_code=#{exBankTypeCode},</if>
+
+		where ex_bank_front_id = #{exBankFrontId}
+	</update>
+
+	<select id="getExBankFront" parameterType="BigInteger" resultType="com.iss.exchange.core.common.entity.ExBankFront">
+		select
+			ex_bank_front_id  	AS exBankFrontId,
+			ex_agency_code    	AS exAgencyCode,
+			ex_bank_type_code 	AS exBankTypeCode
+		from t_ex_bank_front
+		where ex_bank_front_id = #{exBankFrontId}
+	</select>
+
+	<select id="getExBankFrontList" parameterType="com.iss.exchange.core.common.entity.ExBankFront" resultType="com.iss.exchange.core.common.entity.ExBankFront">
+		select
+			ex_bank_front_id  	AS exBankFrontId,
+			ex_agency_code    	AS exAgencyCode,
+			ex_bank_type_code 	AS exBankTypeCode
+		from t_ex_bank_front
+		where ex_bank_front_id = #{exBankFrontId}
+	</select>
+
+	<resultMap id="exBankFrontDTO" type="com.iss.exchange.core.common.dto.ExBankFrontDTO" >
+		<result column="ex_bank_front_id"  property="exBankFrontId"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_bank_type_code"  property="exBankTypeCode"/>
+		<result column="ex_bank_type_desc"  property="exBankTypeDesc"/>
+	</resultMap>
+
+	<select id="getExBankFrontDTO" parameterType="BigInteger" resultMap="exBankFrontDTO">
+		select
+			t.ex_bank_front_id  	AS ex_bank_front_id,
+			t.ex_agency_code    	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_bank_type_code 	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc
+		from t_ex_bank_front t
+		where ex_bank_front_id = #{exBankFrontId}
+	</select>
+
+	<select id="getExBankFrontPageList" parameterType="com.iss.exchange.core.common.entity.ExBankFront" resultMap="exBankFrontDTO">
+		select
+			t.ex_bank_front_id  	AS ex_bank_front_id,
+			t.ex_agency_code    	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_bank_type_code 	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc
+		from t_ex_bank_front t
+	</select>
+
+
+</mapper>

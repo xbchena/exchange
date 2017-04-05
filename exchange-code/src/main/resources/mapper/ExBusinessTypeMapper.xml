@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.common.dao.ExBusinessTypeMapper">
+
+	<insert id="addExBusinessType" parameterType="com.iss.exchange.core.common.entity.ExBusinessType">
+		insert into t_ex_business_type(ex_business_type_name,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exBusinessTypeName},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExBusinessType" parameterType="java.util.List">
+		insert into t_ex_business_type(ex_business_type_name,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exBusinessTypeName},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExBusinessType" parameterType="String">
+		delete from t_ex_business_type  where ex_business_type_code = #{exBusinessTypeCode}
+	</delete>
+
+	<delete id="batchDeleteExBusinessType" parameterType="java.util.List">
+		delete from t_ex_business_type  where ex_business_type_code in
+		<foreach collection="exBusinessTypeCodeList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExBusinessType" parameterType="com.iss.exchange.core.common.entity.ExBusinessType">
+		update t_ex_business_type set 
+			<if test="exBusinessTypeCode!= null">ex_business_type_code=#{exBusinessTypeCode},</if>
+			<if test="exBusinessTypeName!= null">ex_business_type_name=#{exBusinessTypeName},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_business_type_code = #{exBusinessTypeCode}
+	</update>
+
+	<select id="getExBusinessType" parameterType="String" resultType="com.iss.exchange.core.common.entity.ExBusinessType">
+		select
+			ex_business_type_code 	AS exBusinessTypeCode,
+			ex_business_type_name 	AS exBusinessTypeName,
+			creator               	AS creator,
+			modifier              	AS modifier,
+			create_time           	AS createTime,
+			last_modifi_time      	AS lastModifiTime
+		from t_ex_business_type
+		where ex_business_type_code = #{exBusinessTypeCode}
+	</select>
+
+	<select id="getExBusinessTypeList" parameterType="com.iss.exchange.core.common.entity.ExBusinessType" resultType="com.iss.exchange.core.common.entity.ExBusinessType">
+		select
+			ex_business_type_code 	AS exBusinessTypeCode,
+			ex_business_type_name 	AS exBusinessTypeName,
+			creator               	AS creator,
+			modifier              	AS modifier,
+			create_time           	AS createTime,
+			last_modifi_time      	AS lastModifiTime
+		from t_ex_business_type
+		where ex_business_type_code = #{exBusinessTypeCode}
+	</select>
+
+	<resultMap id="exBusinessTypeDTO" type="com.iss.exchange.core.common.dto.ExBusinessTypeDTO" >
+		<result column="ex_business_type_code"  property="exBusinessTypeCode"/>
+		<result column="ex_business_type_desc"  property="exBusinessTypeDesc"/>
+		<result column="ex_business_type_name"  property="exBusinessTypeName"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExBusinessTypeDTO" parameterType="String" resultMap="exBusinessTypeDTO">
+		select
+			t.ex_business_type_code 	AS ex_business_type_code,
+			(select code_desc from  where code_type = 'exBusinessTypeCode' and code = t.ex_business_type_code)	AS ex_business_type_desc,
+			t.ex_business_type_name 	AS ex_business_type_name,
+			t.creator               	AS creator,
+			t.modifier              	AS modifier,
+			t.create_time           	AS create_time,
+			t.last_modifi_time      	AS last_modifi_time
+		from t_ex_business_type t
+		where ex_business_type_code = #{exBusinessTypeCode}
+	</select>
+
+	<select id="getExBusinessTypePageList" parameterType="com.iss.exchange.core.common.entity.ExBusinessType" resultMap="exBusinessTypeDTO">
+		select
+			t.ex_business_type_code 	AS ex_business_type_code,
+			(select code_desc from  where code_type = 'exBusinessTypeCode' and code = t.ex_business_type_code)	AS ex_business_type_desc,
+			t.ex_business_type_name 	AS ex_business_type_name,
+			t.creator               	AS creator,
+			t.modifier              	AS modifier,
+			t.create_time           	AS create_time,
+			t.last_modifi_time      	AS last_modifi_time
+		from t_ex_business_type t
+	</select>
+
+
+</mapper>

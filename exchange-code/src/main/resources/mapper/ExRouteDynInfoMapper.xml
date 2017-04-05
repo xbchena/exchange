@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.route.dao.ExRouteDynInfoMapper">
+
+	<insert id="addExRouteDynInfo" parameterType="com.iss.exchange.core.route.entity.ExRouteDynInfo">
+		insert into t_ex_route_dyn_info(ex_channel_code,ex_agency_code,product_type,opp_account_type,settle_type,interface_type,record_status,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exChannelCode},''),IFNULL(#{exAgencyCode},''),IFNULL(#{productType},''),IFNULL(#{oppAccountType},''),IFNULL(#{settleType},''),IFNULL(#{interfaceType},''),IFNULL(#{recordStatus},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExRouteDynInfo" parameterType="java.util.List">
+		insert into t_ex_route_dyn_info(ex_channel_code,ex_agency_code,product_type,opp_account_type,settle_type,interface_type,record_status,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exChannelCode},''),IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.productType},''),IFNULL(#{item.oppAccountType},''),IFNULL(#{item.settleType},''),IFNULL(#{item.interfaceType},''),IFNULL(#{item.recordStatus},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExRouteDynInfo" parameterType="BigInteger">
+		delete from t_ex_route_dyn_info  where ex_route_info_id = #{exRouteInfoId}
+	</delete>
+
+	<delete id="batchDeleteExRouteDynInfo" parameterType="java.util.List">
+		delete from t_ex_route_dyn_info  where ex_route_info_id in
+		<foreach collection="exRouteInfoIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExRouteDynInfo" parameterType="com.iss.exchange.core.route.entity.ExRouteDynInfo">
+		update t_ex_route_dyn_info set 
+			<if test="exRouteInfoId!= null">ex_route_info_id=#{exRouteInfoId},</if>
+			<if test="exChannelCode!= null">ex_channel_code=#{exChannelCode},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="productType!= null">product_type=#{productType},</if>
+			<if test="oppAccountType!= null">opp_account_type=#{oppAccountType},</if>
+			<if test="settleType!= null">settle_type=#{settleType},</if>
+			<if test="interfaceType!= null">interface_type=#{interfaceType},</if>
+			<if test="recordStatus!= null">record_status=#{recordStatus},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_route_info_id = #{exRouteInfoId}
+	</update>
+
+	<select id="getExRouteDynInfo" parameterType="BigInteger" resultType="com.iss.exchange.core.route.entity.ExRouteDynInfo">
+		select
+			ex_route_info_id 	AS exRouteInfoId,
+			ex_channel_code  	AS exChannelCode,
+			ex_agency_code   	AS exAgencyCode,
+			product_type     	AS productType,
+			opp_account_type 	AS oppAccountType,
+			settle_type      	AS settleType,
+			interface_type   	AS interfaceType,
+			record_status    	AS recordStatus,
+			creator          	AS creator,
+			modifier         	AS modifier,
+			create_time      	AS createTime,
+			last_modifi_time 	AS lastModifiTime
+		from t_ex_route_dyn_info
+		where ex_route_info_id = #{exRouteInfoId}
+	</select>
+
+	<select id="getExRouteDynInfoList" parameterType="com.iss.exchange.core.route.entity.ExRouteDynInfo" resultType="com.iss.exchange.core.route.entity.ExRouteDynInfo">
+		select
+			ex_route_info_id 	AS exRouteInfoId,
+			ex_channel_code  	AS exChannelCode,
+			ex_agency_code   	AS exAgencyCode,
+			product_type     	AS productType,
+			opp_account_type 	AS oppAccountType,
+			settle_type      	AS settleType,
+			interface_type   	AS interfaceType,
+			record_status    	AS recordStatus,
+			creator          	AS creator,
+			modifier         	AS modifier,
+			create_time      	AS createTime,
+			last_modifi_time 	AS lastModifiTime
+		from t_ex_route_dyn_info
+		where ex_route_info_id = #{exRouteInfoId}
+	</select>
+
+	<resultMap id="exRouteDynInfoDTO" type="com.iss.exchange.core.route.dto.ExRouteDynInfoDTO" >
+		<result column="ex_route_info_id"  property="exRouteInfoId"/>
+		<result column="ex_channel_code"  property="exChannelCode"/>
+		<result column="ex_channel_desc"  property="exChannelDesc"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="product_type"  property="productType"/>
+		<result column="opp_account_type"  property="oppAccountType"/>
+		<result column="settle_type"  property="settleType"/>
+		<result column="interface_type"  property="interfaceType"/>
+		<result column="record_status"  property="recordStatus"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExRouteDynInfoDTO" parameterType="BigInteger" resultMap="exRouteDynInfoDTO">
+		select
+			t.ex_route_info_id 	AS ex_route_info_id,
+			t.ex_channel_code  	AS ex_channel_code,
+			(select code_desc from  where code_type = 'exChannelCode' and code = t.ex_channel_code)	AS ex_channel_desc,
+			t.ex_agency_code   	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.product_type     	AS product_type,
+			t.opp_account_type 	AS opp_account_type,
+			t.settle_type      	AS settle_type,
+			t.interface_type   	AS interface_type,
+			t.record_status    	AS record_status,
+			t.creator          	AS creator,
+			t.modifier         	AS modifier,
+			t.create_time      	AS create_time,
+			t.last_modifi_time 	AS last_modifi_time
+		from t_ex_route_dyn_info t
+		where ex_route_info_id = #{exRouteInfoId}
+	</select>
+
+	<select id="getExRouteDynInfoPageList" parameterType="com.iss.exchange.core.route.entity.ExRouteDynInfo" resultMap="exRouteDynInfoDTO">
+		select
+			t.ex_route_info_id 	AS ex_route_info_id,
+			t.ex_channel_code  	AS ex_channel_code,
+			(select code_desc from  where code_type = 'exChannelCode' and code = t.ex_channel_code)	AS ex_channel_desc,
+			t.ex_agency_code   	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.product_type     	AS product_type,
+			t.opp_account_type 	AS opp_account_type,
+			t.settle_type      	AS settle_type,
+			t.interface_type   	AS interface_type,
+			t.record_status    	AS record_status,
+			t.creator          	AS creator,
+			t.modifier         	AS modifier,
+			t.create_time      	AS create_time,
+			t.last_modifi_time 	AS last_modifi_time
+		from t_ex_route_dyn_info t
+	</select>
+
+
+</mapper>

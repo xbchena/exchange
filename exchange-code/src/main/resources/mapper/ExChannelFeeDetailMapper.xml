@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.channel.dao.ExChannelFeeDetailMapper">
+
+	<insert id="addExChannelFeeDetail" parameterType="com.iss.exchange.core.channel.entity.ExChannelFeeDetail">
+		insert into t_ex_channel_fee_detail(ex_channel_fee_code,card_type,is_same_city,amount_start,amount_end,fee_type,caculate_type,fee_amount,min_bypercent,max_bypercent,urg_support,urg_fee_rate,urg_fee_max,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exChannelFeeCode},''),IFNULL(#{cardType},''),IFNULL(#{isSameCity},''),IFNULL(#{amountStart},''),IFNULL(#{amountEnd},''),IFNULL(#{feeType},''),IFNULL(#{caculateType},''),IFNULL(#{feeAmount},''),IFNULL(#{minBypercent},''),IFNULL(#{maxBypercent},''),IFNULL(#{urgSupport},''),IFNULL(#{urgFeeRate},''),IFNULL(#{urgFeeMax},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExChannelFeeDetail" parameterType="java.util.List">
+		insert into t_ex_channel_fee_detail(ex_channel_fee_code,card_type,is_same_city,amount_start,amount_end,fee_type,caculate_type,fee_amount,min_bypercent,max_bypercent,urg_support,urg_fee_rate,urg_fee_max,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exChannelFeeCode},''),IFNULL(#{item.cardType},''),IFNULL(#{item.isSameCity},''),IFNULL(#{item.amountStart},''),IFNULL(#{item.amountEnd},''),IFNULL(#{item.feeType},''),IFNULL(#{item.caculateType},''),IFNULL(#{item.feeAmount},''),IFNULL(#{item.minBypercent},''),IFNULL(#{item.maxBypercent},''),IFNULL(#{item.urgSupport},''),IFNULL(#{item.urgFeeRate},''),IFNULL(#{item.urgFeeMax},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExChannelFeeDetail" parameterType="BigInteger">
+		delete from t_ex_channel_fee_detail  where upp_channel_fee_detail_id = #{uppChannelFeeDetailId}
+	</delete>
+
+	<delete id="batchDeleteExChannelFeeDetail" parameterType="java.util.List">
+		delete from t_ex_channel_fee_detail  where upp_channel_fee_detail_id in
+		<foreach collection="uppChannelFeeDetailIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExChannelFeeDetail" parameterType="com.iss.exchange.core.channel.entity.ExChannelFeeDetail">
+		update t_ex_channel_fee_detail set 
+			<if test="uppChannelFeeDetailId!= null">upp_channel_fee_detail_id=#{uppChannelFeeDetailId},</if>
+			<if test="exChannelFeeCode!= null">ex_channel_fee_code=#{exChannelFeeCode},</if>
+			<if test="cardType!= null">card_type=#{cardType},</if>
+			<if test="isSameCity!= null">is_same_city=#{isSameCity},</if>
+			<if test="amountStart!= null">amount_start=#{amountStart},</if>
+			<if test="amountEnd!= null">amount_end=#{amountEnd},</if>
+			<if test="feeType!= null">fee_type=#{feeType},</if>
+			<if test="caculateType!= null">caculate_type=#{caculateType},</if>
+			<if test="feeAmount!= null">fee_amount=#{feeAmount},</if>
+			<if test="minBypercent!= null">min_bypercent=#{minBypercent},</if>
+			<if test="maxBypercent!= null">max_bypercent=#{maxBypercent},</if>
+			<if test="urgSupport!= null">urg_support=#{urgSupport},</if>
+			<if test="urgFeeRate!= null">urg_fee_rate=#{urgFeeRate},</if>
+			<if test="urgFeeMax!= null">urg_fee_max=#{urgFeeMax},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where upp_channel_fee_detail_id = #{uppChannelFeeDetailId}
+	</update>
+
+	<select id="getExChannelFeeDetail" parameterType="BigInteger" resultType="com.iss.exchange.core.channel.entity.ExChannelFeeDetail">
+		select
+			upp_channel_fee_detail_id 	AS uppChannelFeeDetailId,
+			ex_channel_fee_code       	AS exChannelFeeCode,
+			card_type                 	AS cardType,
+			is_same_city              	AS isSameCity,
+			amount_start              	AS amountStart,
+			amount_end                	AS amountEnd,
+			fee_type                  	AS feeType,
+			caculate_type             	AS caculateType,
+			fee_amount                	AS feeAmount,
+			min_bypercent             	AS minBypercent,
+			max_bypercent             	AS maxBypercent,
+			urg_support               	AS urgSupport,
+			urg_fee_rate              	AS urgFeeRate,
+			urg_fee_max               	AS urgFeeMax,
+			creator                   	AS creator,
+			modifier                  	AS modifier,
+			create_time               	AS createTime,
+			last_modifi_time          	AS lastModifiTime
+		from t_ex_channel_fee_detail
+		where upp_channel_fee_detail_id = #{uppChannelFeeDetailId}
+	</select>
+
+	<select id="getExChannelFeeDetailList" parameterType="com.iss.exchange.core.channel.entity.ExChannelFeeDetail" resultType="com.iss.exchange.core.channel.entity.ExChannelFeeDetail">
+		select
+			upp_channel_fee_detail_id 	AS uppChannelFeeDetailId,
+			ex_channel_fee_code       	AS exChannelFeeCode,
+			card_type                 	AS cardType,
+			is_same_city              	AS isSameCity,
+			amount_start              	AS amountStart,
+			amount_end                	AS amountEnd,
+			fee_type                  	AS feeType,
+			caculate_type             	AS caculateType,
+			fee_amount                	AS feeAmount,
+			min_bypercent             	AS minBypercent,
+			max_bypercent             	AS maxBypercent,
+			urg_support               	AS urgSupport,
+			urg_fee_rate              	AS urgFeeRate,
+			urg_fee_max               	AS urgFeeMax,
+			creator                   	AS creator,
+			modifier                  	AS modifier,
+			create_time               	AS createTime,
+			last_modifi_time          	AS lastModifiTime
+		from t_ex_channel_fee_detail
+		where upp_channel_fee_detail_id = #{uppChannelFeeDetailId}
+	</select>
+
+	<resultMap id="exChannelFeeDetailDTO" type="com.iss.exchange.core.channel.dto.ExChannelFeeDetailDTO" >
+		<result column="upp_channel_fee_detail_id"  property="uppChannelFeeDetailId"/>
+		<result column="ex_channel_fee_code"  property="exChannelFeeCode"/>
+		<result column="ex_channel_fee_desc"  property="exChannelFeeDesc"/>
+		<result column="card_type"  property="cardType"/>
+		<result column="is_same_city"  property="isSameCity"/>
+		<result column="amount_start"  property="amountStart"/>
+		<result column="amount_end"  property="amountEnd"/>
+		<result column="fee_type"  property="feeType"/>
+		<result column="caculate_type"  property="caculateType"/>
+		<result column="fee_amount"  property="feeAmount"/>
+		<result column="min_bypercent"  property="minBypercent"/>
+		<result column="max_bypercent"  property="maxBypercent"/>
+		<result column="urg_support"  property="urgSupport"/>
+		<result column="urg_fee_rate"  property="urgFeeRate"/>
+		<result column="urg_fee_max"  property="urgFeeMax"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExChannelFeeDetailDTO" parameterType="BigInteger" resultMap="exChannelFeeDetailDTO">
+		select
+			t.upp_channel_fee_detail_id 	AS upp_channel_fee_detail_id,
+			t.ex_channel_fee_code       	AS ex_channel_fee_code,
+			(select code_desc from  where code_type = 'exChannelFeeCode' and code = t.ex_channel_fee_code)	AS ex_channel_fee_desc,
+			t.card_type                 	AS card_type,
+			t.is_same_city              	AS is_same_city,
+			t.amount_start              	AS amount_start,
+			t.amount_end                	AS amount_end,
+			t.fee_type                  	AS fee_type,
+			t.caculate_type             	AS caculate_type,
+			t.fee_amount                	AS fee_amount,
+			t.min_bypercent             	AS min_bypercent,
+			t.max_bypercent             	AS max_bypercent,
+			t.urg_support               	AS urg_support,
+			t.urg_fee_rate              	AS urg_fee_rate,
+			t.urg_fee_max               	AS urg_fee_max,
+			t.creator                   	AS creator,
+			t.modifier                  	AS modifier,
+			t.create_time               	AS create_time,
+			t.last_modifi_time          	AS last_modifi_time
+		from t_ex_channel_fee_detail t
+		where upp_channel_fee_detail_id = #{uppChannelFeeDetailId}
+	</select>
+
+	<select id="getExChannelFeeDetailPageList" parameterType="com.iss.exchange.core.channel.entity.ExChannelFeeDetail" resultMap="exChannelFeeDetailDTO">
+		select
+			t.upp_channel_fee_detail_id 	AS upp_channel_fee_detail_id,
+			t.ex_channel_fee_code       	AS ex_channel_fee_code,
+			(select code_desc from  where code_type = 'exChannelFeeCode' and code = t.ex_channel_fee_code)	AS ex_channel_fee_desc,
+			t.card_type                 	AS card_type,
+			t.is_same_city              	AS is_same_city,
+			t.amount_start              	AS amount_start,
+			t.amount_end                	AS amount_end,
+			t.fee_type                  	AS fee_type,
+			t.caculate_type             	AS caculate_type,
+			t.fee_amount                	AS fee_amount,
+			t.min_bypercent             	AS min_bypercent,
+			t.max_bypercent             	AS max_bypercent,
+			t.urg_support               	AS urg_support,
+			t.urg_fee_rate              	AS urg_fee_rate,
+			t.urg_fee_max               	AS urg_fee_max,
+			t.creator                   	AS creator,
+			t.modifier                  	AS modifier,
+			t.create_time               	AS create_time,
+			t.last_modifi_time          	AS last_modifi_time
+		from t_ex_channel_fee_detail t
+	</select>
+
+
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.transaction.dao.ExBankTransactionHisInfoMapper">
+
+	<insert id="addExBankTransactionHisInfo" parameterType="com.iss.exchange.core.transaction.entity.ExBankTransactionHisInfo">
+		insert into t_ex_bank_transaction_his_info(creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExBankTransactionHisInfo" parameterType="java.util.List">
+		insert into t_ex_bank_transaction_his_info(creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExBankTransactionHisInfo" parameterType="BigInteger">
+		delete from t_ex_bank_transaction_his_info  where ex_bank_transaction_his_info_id = #{exBankTransactionHisInfoId}
+	</delete>
+
+	<delete id="batchDeleteExBankTransactionHisInfo" parameterType="java.util.List">
+		delete from t_ex_bank_transaction_his_info  where ex_bank_transaction_his_info_id in
+		<foreach collection="exBankTransactionHisInfoIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExBankTransactionHisInfo" parameterType="com.iss.exchange.core.transaction.entity.ExBankTransactionHisInfo">
+		update t_ex_bank_transaction_his_info set 
+			<if test="exBankTransactionHisInfoId!= null">ex_bank_transaction_his_info_id=#{exBankTransactionHisInfoId},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_bank_transaction_his_info_id = #{exBankTransactionHisInfoId}
+	</update>
+
+	<select id="getExBankTransactionHisInfo" parameterType="BigInteger" resultType="com.iss.exchange.core.transaction.entity.ExBankTransactionHisInfo">
+		select
+			ex_bank_transaction_his_info_id 	AS exBankTransactionHisInfoId,
+			creator                         	AS creator,
+			modifier                        	AS modifier,
+			create_time                     	AS createTime,
+			last_modifi_time                	AS lastModifiTime
+		from t_ex_bank_transaction_his_info
+		where ex_bank_transaction_his_info_id = #{exBankTransactionHisInfoId}
+	</select>
+
+	<select id="getExBankTransactionHisInfoList" parameterType="com.iss.exchange.core.transaction.entity.ExBankTransactionHisInfo" resultType="com.iss.exchange.core.transaction.entity.ExBankTransactionHisInfo">
+		select
+			ex_bank_transaction_his_info_id 	AS exBankTransactionHisInfoId,
+			creator                         	AS creator,
+			modifier                        	AS modifier,
+			create_time                     	AS createTime,
+			last_modifi_time                	AS lastModifiTime
+		from t_ex_bank_transaction_his_info
+		where ex_bank_transaction_his_info_id = #{exBankTransactionHisInfoId}
+	</select>
+
+	<resultMap id="exBankTransactionHisInfoDTO" type="com.iss.exchange.core.transaction.dto.ExBankTransactionHisInfoDTO" >
+		<result column="ex_bank_transaction_his_info_id"  property="exBankTransactionHisInfoId"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExBankTransactionHisInfoDTO" parameterType="BigInteger" resultMap="exBankTransactionHisInfoDTO">
+		select
+			t.ex_bank_transaction_his_info_id 	AS ex_bank_transaction_his_info_id,
+			t.creator                         	AS creator,
+			t.modifier                        	AS modifier,
+			t.create_time                     	AS create_time,
+			t.last_modifi_time                	AS last_modifi_time
+		from t_ex_bank_transaction_his_info t
+		where ex_bank_transaction_his_info_id = #{exBankTransactionHisInfoId}
+	</select>
+
+	<select id="getExBankTransactionHisInfoPageList" parameterType="com.iss.exchange.core.transaction.entity.ExBankTransactionHisInfo" resultMap="exBankTransactionHisInfoDTO">
+		select
+			t.ex_bank_transaction_his_info_id 	AS ex_bank_transaction_his_info_id,
+			t.creator                         	AS creator,
+			t.modifier                        	AS modifier,
+			t.create_time                     	AS create_time,
+			t.last_modifi_time                	AS last_modifi_time
+		from t_ex_bank_transaction_his_info t
+	</select>
+
+
+</mapper>

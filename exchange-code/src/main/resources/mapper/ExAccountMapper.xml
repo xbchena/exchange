@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.account.dao.ExAccountMapper">
+
+	<insert id="addExAccount" parameterType="com.iss.exchange.core.account.entity.ExAccount">
+		insert into t_ex_account(ex_account_no,ex_account_name,ex_account_name_en,bank_name,ex_bank_type_code,status,ex_agency_code,currency,provice,city,open_date,branch_code,branch_unite_code,cnaps_code,account_property,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exAccountNo},''),IFNULL(#{exAccountName},''),IFNULL(#{exAccountNameEn},''),IFNULL(#{bankName},''),IFNULL(#{exBankTypeCode},''),IFNULL(#{status},''),IFNULL(#{exAgencyCode},''),IFNULL(#{currency},''),IFNULL(#{provice},''),IFNULL(#{city},''),#{openDate},IFNULL(#{branchCode},''),IFNULL(#{branchUniteCode},''),IFNULL(#{cnapsCode},''),IFNULL(#{accountProperty},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExAccount" parameterType="java.util.List">
+		insert into t_ex_account(ex_account_no,ex_account_name,ex_account_name_en,bank_name,ex_bank_type_code,status,ex_agency_code,currency,provice,city,open_date,branch_code,branch_unite_code,cnaps_code,account_property,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exAccountNo},''),IFNULL(#{item.exAccountName},''),IFNULL(#{item.exAccountNameEn},''),IFNULL(#{item.bankName},''),IFNULL(#{item.exBankTypeCode},''),IFNULL(#{item.status},''),IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.currency},''),IFNULL(#{item.provice},''),IFNULL(#{item.city},''),#{item.openDate},IFNULL(#{item.branchCode},''),IFNULL(#{item.branchUniteCode},''),IFNULL(#{item.cnapsCode},''),IFNULL(#{item.accountProperty},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExAccount" parameterType="BigInteger">
+		delete from t_ex_account  where ex_account_id = #{exAccountId}
+	</delete>
+
+	<delete id="batchDeleteExAccount" parameterType="java.util.List">
+		delete from t_ex_account  where ex_account_id in
+		<foreach collection="exAccountIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExAccount" parameterType="com.iss.exchange.core.account.entity.ExAccount">
+		update t_ex_account set 
+			<if test="exAccountId!= null">ex_account_id=#{exAccountId},</if>
+			<if test="exAccountNo!= null">ex_account_no=#{exAccountNo},</if>
+			<if test="exAccountName!= null">ex_account_name=#{exAccountName},</if>
+			<if test="exAccountNameEn!= null">ex_account_name_en=#{exAccountNameEn},</if>
+			<if test="bankName!= null">bank_name=#{bankName},</if>
+			<if test="exBankTypeCode!= null">ex_bank_type_code=#{exBankTypeCode},</if>
+			<if test="status!= null">status=#{status},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="currency!= null">currency=#{currency},</if>
+			<if test="provice!= null">provice=#{provice},</if>
+			<if test="city!= null">city=#{city},</if>
+			<if test="openDate!= null">open_date=#{openDate},</if>
+			<if test="branchCode!= null">branch_code=#{branchCode},</if>
+			<if test="branchUniteCode!= null">branch_unite_code=#{branchUniteCode},</if>
+			<if test="cnapsCode!= null">cnaps_code=#{cnapsCode},</if>
+			<if test="accountProperty!= null">account_property=#{accountProperty},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_account_id = #{exAccountId}
+	</update>
+
+	<select id="getExAccount" parameterType="BigInteger" resultType="com.iss.exchange.core.account.entity.ExAccount">
+		select
+			ex_account_id      	AS exAccountId,
+			ex_account_no      	AS exAccountNo,
+			ex_account_name    	AS exAccountName,
+			ex_account_name_en 	AS exAccountNameEn,
+			bank_name          	AS bankName,
+			ex_bank_type_code  	AS exBankTypeCode,
+			status             	AS status,
+			ex_agency_code     	AS exAgencyCode,
+			currency           	AS currency,
+			provice            	AS provice,
+			city               	AS city,
+			open_date          	AS openDate,
+			branch_code        	AS branchCode,
+			branch_unite_code  	AS branchUniteCode,
+			cnaps_code         	AS cnapsCode,
+			account_property   	AS accountProperty,
+			creator            	AS creator,
+			modifier           	AS modifier,
+			create_time        	AS createTime,
+			last_modifi_time   	AS lastModifiTime
+		from t_ex_account
+		where ex_account_id = #{exAccountId}
+	</select>
+
+	<select id="getExAccountList" parameterType="com.iss.exchange.core.account.entity.ExAccount" resultType="com.iss.exchange.core.account.entity.ExAccount">
+		select
+			ex_account_id      	AS exAccountId,
+			ex_account_no      	AS exAccountNo,
+			ex_account_name    	AS exAccountName,
+			ex_account_name_en 	AS exAccountNameEn,
+			bank_name          	AS bankName,
+			ex_bank_type_code  	AS exBankTypeCode,
+			status             	AS status,
+			ex_agency_code     	AS exAgencyCode,
+			currency           	AS currency,
+			provice            	AS provice,
+			city               	AS city,
+			open_date          	AS openDate,
+			branch_code        	AS branchCode,
+			branch_unite_code  	AS branchUniteCode,
+			cnaps_code         	AS cnapsCode,
+			account_property   	AS accountProperty,
+			creator            	AS creator,
+			modifier           	AS modifier,
+			create_time        	AS createTime,
+			last_modifi_time   	AS lastModifiTime
+		from t_ex_account
+		where ex_account_id = #{exAccountId}
+	</select>
+
+	<resultMap id="exAccountDTO" type="com.iss.exchange.core.account.dto.ExAccountDTO" >
+		<result column="ex_account_id"  property="exAccountId"/>
+		<result column="ex_account_no"  property="exAccountNo"/>
+		<result column="ex_account_name"  property="exAccountName"/>
+		<result column="ex_account_name_en"  property="exAccountNameEn"/>
+		<result column="bank_name"  property="bankName"/>
+		<result column="ex_bank_type_code"  property="exBankTypeCode"/>
+		<result column="ex_bank_type_desc"  property="exBankTypeDesc"/>
+		<result column="status"  property="status"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="currency"  property="currency"/>
+		<result column="provice"  property="provice"/>
+		<result column="city"  property="city"/>
+		<result column="open_date"  property="openDate"/>
+		<result column="branch_code"  property="branchCode"/>
+		<result column="branch_desc"  property="branchDesc"/>
+		<result column="branch_unite_code"  property="branchUniteCode"/>
+		<result column="branch_unite_desc"  property="branchUniteDesc"/>
+		<result column="cnaps_code"  property="cnapsCode"/>
+		<result column="cnaps_desc"  property="cnapsDesc"/>
+		<result column="account_property"  property="accountProperty"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExAccountDTO" parameterType="BigInteger" resultMap="exAccountDTO">
+		select
+			t.ex_account_id      	AS ex_account_id,
+			t.ex_account_no      	AS ex_account_no,
+			t.ex_account_name    	AS ex_account_name,
+			t.ex_account_name_en 	AS ex_account_name_en,
+			t.bank_name          	AS bank_name,
+			t.ex_bank_type_code  	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.status             	AS status,
+			t.ex_agency_code     	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.currency           	AS currency,
+			t.provice            	AS provice,
+			t.city               	AS city,
+			t.open_date          	AS open_date,
+			t.branch_code        	AS branch_code,
+			(select code_desc from  where code_type = 'branchCode' and code = t.branch_code)	AS branch_desc,
+			t.branch_unite_code  	AS branch_unite_code,
+			(select code_desc from  where code_type = 'branchUniteCode' and code = t.branch_unite_code)	AS branch_unite_desc,
+			t.cnaps_code         	AS cnaps_code,
+			(select code_desc from  where code_type = 'cnapsCode' and code = t.cnaps_code)	AS cnaps_desc,
+			t.account_property   	AS account_property,
+			t.creator            	AS creator,
+			t.modifier           	AS modifier,
+			t.create_time        	AS create_time,
+			t.last_modifi_time   	AS last_modifi_time
+		from t_ex_account t
+		where ex_account_id = #{exAccountId}
+	</select>
+
+	<select id="getExAccountPageList" parameterType="com.iss.exchange.core.account.entity.ExAccount" resultMap="exAccountDTO">
+		select
+			t.ex_account_id      	AS ex_account_id,
+			t.ex_account_no      	AS ex_account_no,
+			t.ex_account_name    	AS ex_account_name,
+			t.ex_account_name_en 	AS ex_account_name_en,
+			t.bank_name          	AS bank_name,
+			t.ex_bank_type_code  	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.status             	AS status,
+			t.ex_agency_code     	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.currency           	AS currency,
+			t.provice            	AS provice,
+			t.city               	AS city,
+			t.open_date          	AS open_date,
+			t.branch_code        	AS branch_code,
+			(select code_desc from  where code_type = 'branchCode' and code = t.branch_code)	AS branch_desc,
+			t.branch_unite_code  	AS branch_unite_code,
+			(select code_desc from  where code_type = 'branchUniteCode' and code = t.branch_unite_code)	AS branch_unite_desc,
+			t.cnaps_code         	AS cnaps_code,
+			(select code_desc from  where code_type = 'cnapsCode' and code = t.cnaps_code)	AS cnaps_desc,
+			t.account_property   	AS account_property,
+			t.creator            	AS creator,
+			t.modifier           	AS modifier,
+			t.create_time        	AS create_time,
+			t.last_modifi_time   	AS last_modifi_time
+		from t_ex_account t
+	</select>
+
+
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.pay.dao.ExRecBatchInstructionOutMapper">
+
+	<insert id="addExRecBatchInstructionOut" parameterType="com.iss.exchange.core.pay.entity.ExRecBatchInstructionOut">
+		insert into t_ex_rec_batch_instruction_out(ex_rec_batch_instruction_in_id,ex_bank_type_code,ex_agency_code,ex_tx_pack_no,ex_bank_sequence,ex_batch_status,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exRecBatchInstructionInId},''),IFNULL(#{exBankTypeCode},''),IFNULL(#{exAgencyCode},''),IFNULL(#{exTxPackNo},''),IFNULL(#{exBankSequence},''),IFNULL(#{exBatchStatus},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExRecBatchInstructionOut" parameterType="java.util.List">
+		insert into t_ex_rec_batch_instruction_out(ex_rec_batch_instruction_in_id,ex_bank_type_code,ex_agency_code,ex_tx_pack_no,ex_bank_sequence,ex_batch_status,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exRecBatchInstructionInId},''),IFNULL(#{item.exBankTypeCode},''),IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exTxPackNo},''),IFNULL(#{item.exBankSequence},''),IFNULL(#{item.exBatchStatus},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExRecBatchInstructionOut" parameterType="BigInteger">
+		delete from t_ex_rec_batch_instruction_out  where ex_rec_batch_instrutction_out_id = #{exRecBatchInstrutctionOutId}
+	</delete>
+
+	<delete id="batchDeleteExRecBatchInstructionOut" parameterType="java.util.List">
+		delete from t_ex_rec_batch_instruction_out  where ex_rec_batch_instrutction_out_id in
+		<foreach collection="exRecBatchInstrutctionOutIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExRecBatchInstructionOut" parameterType="com.iss.exchange.core.pay.entity.ExRecBatchInstructionOut">
+		update t_ex_rec_batch_instruction_out set 
+			<if test="exRecBatchInstrutctionOutId!= null">ex_rec_batch_instrutction_out_id=#{exRecBatchInstrutctionOutId},</if>
+			<if test="exRecBatchInstructionInId!= null">ex_rec_batch_instruction_in_id=#{exRecBatchInstructionInId},</if>
+			<if test="exBankTypeCode!= null">ex_bank_type_code=#{exBankTypeCode},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exTxPackNo!= null">ex_tx_pack_no=#{exTxPackNo},</if>
+			<if test="exBankSequence!= null">ex_bank_sequence=#{exBankSequence},</if>
+			<if test="exBatchStatus!= null">ex_batch_status=#{exBatchStatus},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_rec_batch_instrutction_out_id = #{exRecBatchInstrutctionOutId}
+	</update>
+
+	<select id="getExRecBatchInstructionOut" parameterType="BigInteger" resultType="com.iss.exchange.core.pay.entity.ExRecBatchInstructionOut">
+		select
+			ex_rec_batch_instrutction_out_id 	AS exRecBatchInstrutctionOutId,
+			ex_rec_batch_instruction_in_id   	AS exRecBatchInstructionInId,
+			ex_bank_type_code                	AS exBankTypeCode,
+			ex_agency_code                   	AS exAgencyCode,
+			ex_tx_pack_no                    	AS exTxPackNo,
+			ex_bank_sequence                 	AS exBankSequence,
+			ex_batch_status                  	AS exBatchStatus,
+			creator                          	AS creator,
+			modifier                         	AS modifier,
+			create_time                      	AS createTime,
+			last_modifi_time                 	AS lastModifiTime
+		from t_ex_rec_batch_instruction_out
+		where ex_rec_batch_instrutction_out_id = #{exRecBatchInstrutctionOutId}
+	</select>
+
+	<select id="getExRecBatchInstructionOutList" parameterType="com.iss.exchange.core.pay.entity.ExRecBatchInstructionOut" resultType="com.iss.exchange.core.pay.entity.ExRecBatchInstructionOut">
+		select
+			ex_rec_batch_instrutction_out_id 	AS exRecBatchInstrutctionOutId,
+			ex_rec_batch_instruction_in_id   	AS exRecBatchInstructionInId,
+			ex_bank_type_code                	AS exBankTypeCode,
+			ex_agency_code                   	AS exAgencyCode,
+			ex_tx_pack_no                    	AS exTxPackNo,
+			ex_bank_sequence                 	AS exBankSequence,
+			ex_batch_status                  	AS exBatchStatus,
+			creator                          	AS creator,
+			modifier                         	AS modifier,
+			create_time                      	AS createTime,
+			last_modifi_time                 	AS lastModifiTime
+		from t_ex_rec_batch_instruction_out
+		where ex_rec_batch_instrutction_out_id = #{exRecBatchInstrutctionOutId}
+	</select>
+
+	<resultMap id="exRecBatchInstructionOutDTO" type="com.iss.exchange.core.pay.dto.ExRecBatchInstructionOutDTO" >
+		<result column="ex_rec_batch_instrutction_out_id"  property="exRecBatchInstrutctionOutId"/>
+		<result column="ex_rec_batch_instruction_in_id"  property="exRecBatchInstructionInId"/>
+		<result column="ex_bank_type_code"  property="exBankTypeCode"/>
+		<result column="ex_bank_type_desc"  property="exBankTypeDesc"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_tx_pack_no"  property="exTxPackNo"/>
+		<result column="ex_bank_sequence"  property="exBankSequence"/>
+		<result column="ex_batch_status"  property="exBatchStatus"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExRecBatchInstructionOutDTO" parameterType="BigInteger" resultMap="exRecBatchInstructionOutDTO">
+		select
+			t.ex_rec_batch_instrutction_out_id 	AS ex_rec_batch_instrutction_out_id,
+			t.ex_rec_batch_instruction_in_id   	AS ex_rec_batch_instruction_in_id,
+			t.ex_bank_type_code                	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_agency_code                   	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_tx_pack_no                    	AS ex_tx_pack_no,
+			t.ex_bank_sequence                 	AS ex_bank_sequence,
+			t.ex_batch_status                  	AS ex_batch_status,
+			t.creator                          	AS creator,
+			t.modifier                         	AS modifier,
+			t.create_time                      	AS create_time,
+			t.last_modifi_time                 	AS last_modifi_time
+		from t_ex_rec_batch_instruction_out t
+		where ex_rec_batch_instrutction_out_id = #{exRecBatchInstrutctionOutId}
+	</select>
+
+	<select id="getExRecBatchInstructionOutPageList" parameterType="com.iss.exchange.core.pay.entity.ExRecBatchInstructionOut" resultMap="exRecBatchInstructionOutDTO">
+		select
+			t.ex_rec_batch_instrutction_out_id 	AS ex_rec_batch_instrutction_out_id,
+			t.ex_rec_batch_instruction_in_id   	AS ex_rec_batch_instruction_in_id,
+			t.ex_bank_type_code                	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_agency_code                   	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_tx_pack_no                    	AS ex_tx_pack_no,
+			t.ex_bank_sequence                 	AS ex_bank_sequence,
+			t.ex_batch_status                  	AS ex_batch_status,
+			t.creator                          	AS creator,
+			t.modifier                         	AS modifier,
+			t.create_time                      	AS create_time,
+			t.last_modifi_time                 	AS last_modifi_time
+		from t_ex_rec_batch_instruction_out t
+	</select>
+
+
+</mapper>

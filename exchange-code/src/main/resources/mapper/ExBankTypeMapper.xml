@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.common.dao.ExBankTypeMapper">
+
+	<insert id="addExBankType" parameterType="com.iss.exchange.core.common.entity.ExBankType">
+		insert into t_ex_bank_type(ex_bank_type_name,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exBankTypeName},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExBankType" parameterType="java.util.List">
+		insert into t_ex_bank_type(ex_bank_type_name,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exBankTypeName},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExBankType" parameterType="String">
+		delete from t_ex_bank_type  where ex_bank_type_code = #{exBankTypeCode}
+	</delete>
+
+	<delete id="batchDeleteExBankType" parameterType="java.util.List">
+		delete from t_ex_bank_type  where ex_bank_type_code in
+		<foreach collection="exBankTypeCodeList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExBankType" parameterType="com.iss.exchange.core.common.entity.ExBankType">
+		update t_ex_bank_type set 
+			<if test="exBankTypeCode!= null">ex_bank_type_code=#{exBankTypeCode},</if>
+			<if test="exBankTypeName!= null">ex_bank_type_name=#{exBankTypeName},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_bank_type_code = #{exBankTypeCode}
+	</update>
+
+	<select id="getExBankType" parameterType="String" resultType="com.iss.exchange.core.common.entity.ExBankType">
+		select
+			ex_bank_type_code 	AS exBankTypeCode,
+			ex_bank_type_name 	AS exBankTypeName,
+			creator           	AS creator,
+			modifier          	AS modifier,
+			create_time       	AS createTime,
+			last_modifi_time  	AS lastModifiTime
+		from t_ex_bank_type
+		where ex_bank_type_code = #{exBankTypeCode}
+	</select>
+
+	<select id="getExBankTypeList" parameterType="com.iss.exchange.core.common.entity.ExBankType" resultType="com.iss.exchange.core.common.entity.ExBankType">
+		select
+			ex_bank_type_code 	AS exBankTypeCode,
+			ex_bank_type_name 	AS exBankTypeName,
+			creator           	AS creator,
+			modifier          	AS modifier,
+			create_time       	AS createTime,
+			last_modifi_time  	AS lastModifiTime
+		from t_ex_bank_type
+		where ex_bank_type_code = #{exBankTypeCode}
+	</select>
+
+	<resultMap id="exBankTypeDTO" type="com.iss.exchange.core.common.dto.ExBankTypeDTO" >
+		<result column="ex_bank_type_code"  property="exBankTypeCode"/>
+		<result column="ex_bank_type_desc"  property="exBankTypeDesc"/>
+		<result column="ex_bank_type_name"  property="exBankTypeName"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExBankTypeDTO" parameterType="String" resultMap="exBankTypeDTO">
+		select
+			t.ex_bank_type_code 	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_bank_type_name 	AS ex_bank_type_name,
+			t.creator           	AS creator,
+			t.modifier          	AS modifier,
+			t.create_time       	AS create_time,
+			t.last_modifi_time  	AS last_modifi_time
+		from t_ex_bank_type t
+		where ex_bank_type_code = #{exBankTypeCode}
+	</select>
+
+	<select id="getExBankTypePageList" parameterType="com.iss.exchange.core.common.entity.ExBankType" resultMap="exBankTypeDTO">
+		select
+			t.ex_bank_type_code 	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_bank_type_name 	AS ex_bank_type_name,
+			t.creator           	AS creator,
+			t.modifier          	AS modifier,
+			t.create_time       	AS create_time,
+			t.last_modifi_time  	AS last_modifi_time
+		from t_ex_bank_type t
+	</select>
+
+
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.route.dao.ExRouteStaticInfoMapper">
+
+	<insert id="addExRouteStaticInfo" parameterType="com.iss.exchange.core.route.entity.ExRouteStaticInfo">
+		insert into t_ex_route_static_info(ex_agency_code,ex_account_id,product_type,opp_account_type,interface_type,record_status,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exAgencyCode},''),IFNULL(#{exAccountId},''),IFNULL(#{productType},''),IFNULL(#{oppAccountType},''),IFNULL(#{interfaceType},''),IFNULL(#{recordStatus},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExRouteStaticInfo" parameterType="java.util.List">
+		insert into t_ex_route_static_info(ex_agency_code,ex_account_id,product_type,opp_account_type,interface_type,record_status,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exAccountId},''),IFNULL(#{item.productType},''),IFNULL(#{item.oppAccountType},''),IFNULL(#{item.interfaceType},''),IFNULL(#{item.recordStatus},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExRouteStaticInfo" parameterType="BigInteger">
+		delete from t_ex_route_static_info  where ex_route_static_info_id = #{exRouteStaticInfoId}
+	</delete>
+
+	<delete id="batchDeleteExRouteStaticInfo" parameterType="java.util.List">
+		delete from t_ex_route_static_info  where ex_route_static_info_id in
+		<foreach collection="exRouteStaticInfoIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExRouteStaticInfo" parameterType="com.iss.exchange.core.route.entity.ExRouteStaticInfo">
+		update t_ex_route_static_info set 
+			<if test="exRouteStaticInfoId!= null">ex_route_static_info_id=#{exRouteStaticInfoId},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exAccountId!= null">ex_account_id=#{exAccountId},</if>
+			<if test="productType!= null">product_type=#{productType},</if>
+			<if test="oppAccountType!= null">opp_account_type=#{oppAccountType},</if>
+			<if test="interfaceType!= null">interface_type=#{interfaceType},</if>
+			<if test="recordStatus!= null">record_status=#{recordStatus},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_route_static_info_id = #{exRouteStaticInfoId}
+	</update>
+
+	<select id="getExRouteStaticInfo" parameterType="BigInteger" resultType="com.iss.exchange.core.route.entity.ExRouteStaticInfo">
+		select
+			ex_route_static_info_id 	AS exRouteStaticInfoId,
+			ex_agency_code          	AS exAgencyCode,
+			ex_account_id           	AS exAccountId,
+			product_type            	AS productType,
+			opp_account_type        	AS oppAccountType,
+			interface_type          	AS interfaceType,
+			record_status           	AS recordStatus,
+			creator                 	AS creator,
+			modifier                	AS modifier,
+			create_time             	AS createTime,
+			last_modifi_time        	AS lastModifiTime
+		from t_ex_route_static_info
+		where ex_route_static_info_id = #{exRouteStaticInfoId}
+	</select>
+
+	<select id="getExRouteStaticInfoList" parameterType="com.iss.exchange.core.route.entity.ExRouteStaticInfo" resultType="com.iss.exchange.core.route.entity.ExRouteStaticInfo">
+		select
+			ex_route_static_info_id 	AS exRouteStaticInfoId,
+			ex_agency_code          	AS exAgencyCode,
+			ex_account_id           	AS exAccountId,
+			product_type            	AS productType,
+			opp_account_type        	AS oppAccountType,
+			interface_type          	AS interfaceType,
+			record_status           	AS recordStatus,
+			creator                 	AS creator,
+			modifier                	AS modifier,
+			create_time             	AS createTime,
+			last_modifi_time        	AS lastModifiTime
+		from t_ex_route_static_info
+		where ex_route_static_info_id = #{exRouteStaticInfoId}
+	</select>
+
+	<resultMap id="exRouteStaticInfoDTO" type="com.iss.exchange.core.route.dto.ExRouteStaticInfoDTO" >
+		<result column="ex_route_static_info_id"  property="exRouteStaticInfoId"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_account_id"  property="exAccountId"/>
+		<result column="product_type"  property="productType"/>
+		<result column="opp_account_type"  property="oppAccountType"/>
+		<result column="interface_type"  property="interfaceType"/>
+		<result column="record_status"  property="recordStatus"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExRouteStaticInfoDTO" parameterType="BigInteger" resultMap="exRouteStaticInfoDTO">
+		select
+			t.ex_route_static_info_id 	AS ex_route_static_info_id,
+			t.ex_agency_code          	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_account_id           	AS ex_account_id,
+			t.product_type            	AS product_type,
+			t.opp_account_type        	AS opp_account_type,
+			t.interface_type          	AS interface_type,
+			t.record_status           	AS record_status,
+			t.creator                 	AS creator,
+			t.modifier                	AS modifier,
+			t.create_time             	AS create_time,
+			t.last_modifi_time        	AS last_modifi_time
+		from t_ex_route_static_info t
+		where ex_route_static_info_id = #{exRouteStaticInfoId}
+	</select>
+
+	<select id="getExRouteStaticInfoPageList" parameterType="com.iss.exchange.core.route.entity.ExRouteStaticInfo" resultMap="exRouteStaticInfoDTO">
+		select
+			t.ex_route_static_info_id 	AS ex_route_static_info_id,
+			t.ex_agency_code          	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_account_id           	AS ex_account_id,
+			t.product_type            	AS product_type,
+			t.opp_account_type        	AS opp_account_type,
+			t.interface_type          	AS interface_type,
+			t.record_status           	AS record_status,
+			t.creator                 	AS creator,
+			t.modifier                	AS modifier,
+			t.create_time             	AS create_time,
+			t.last_modifi_time        	AS last_modifi_time
+		from t_ex_route_static_info t
+	</select>
+
+
+</mapper>

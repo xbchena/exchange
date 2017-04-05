@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.pay.dao.ExPaySingleInstructionOutMapper">
+
+	<insert id="addExPaySingleInstructionOut" parameterType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionOut">
+		insert into t_ex_pay_single_instruction_out(ex_pay_single_instruction_in_id,ex_bank_type_code,ex_agency_code,ex_tx_pack_no,ex_order_id,ex_order_no,ex_order_bank_no,ex_bank_sequence,ex_bank_status,ex_iRet_code,ex_iRet_message,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exPaySingleInstructionInId},''),IFNULL(#{exBankTypeCode},''),IFNULL(#{exAgencyCode},''),IFNULL(#{exTxPackNo},''),IFNULL(#{exOrderId},''),IFNULL(#{exOrderNo},''),IFNULL(#{exOrderBankNo},''),IFNULL(#{exBankSequence},''),IFNULL(#{exBankStatus},''),IFNULL(#{exIretCode},''),IFNULL(#{exIretMessage},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExPaySingleInstructionOut" parameterType="java.util.List">
+		insert into t_ex_pay_single_instruction_out(ex_pay_single_instruction_in_id,ex_bank_type_code,ex_agency_code,ex_tx_pack_no,ex_order_id,ex_order_no,ex_order_bank_no,ex_bank_sequence,ex_bank_status,ex_iRet_code,ex_iRet_message,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exPaySingleInstructionInId},''),IFNULL(#{item.exBankTypeCode},''),IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exTxPackNo},''),IFNULL(#{item.exOrderId},''),IFNULL(#{item.exOrderNo},''),IFNULL(#{item.exOrderBankNo},''),IFNULL(#{item.exBankSequence},''),IFNULL(#{item.exBankStatus},''),IFNULL(#{item.exIretCode},''),IFNULL(#{item.exIretMessage},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExPaySingleInstructionOut" parameterType="BigInteger">
+		delete from t_ex_pay_single_instruction_out  where ex_pay_single_instruction_out_id = #{exPaySingleInstructionOutId}
+	</delete>
+
+	<delete id="batchDeleteExPaySingleInstructionOut" parameterType="java.util.List">
+		delete from t_ex_pay_single_instruction_out  where ex_pay_single_instruction_out_id in
+		<foreach collection="exPaySingleInstructionOutIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExPaySingleInstructionOut" parameterType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionOut">
+		update t_ex_pay_single_instruction_out set 
+			<if test="exPaySingleInstructionOutId!= null">ex_pay_single_instruction_out_id=#{exPaySingleInstructionOutId},</if>
+			<if test="exPaySingleInstructionInId!= null">ex_pay_single_instruction_in_id=#{exPaySingleInstructionInId},</if>
+			<if test="exBankTypeCode!= null">ex_bank_type_code=#{exBankTypeCode},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exTxPackNo!= null">ex_tx_pack_no=#{exTxPackNo},</if>
+			<if test="exOrderId!= null">ex_order_id=#{exOrderId},</if>
+			<if test="exOrderNo!= null">ex_order_no=#{exOrderNo},</if>
+			<if test="exOrderBankNo!= null">ex_order_bank_no=#{exOrderBankNo},</if>
+			<if test="exBankSequence!= null">ex_bank_sequence=#{exBankSequence},</if>
+			<if test="exBankStatus!= null">ex_bank_status=#{exBankStatus},</if>
+			<if test="exIretCode!= null">ex_iRet_code=#{exIretCode},</if>
+			<if test="exIretMessage!= null">ex_iRet_message=#{exIretMessage},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_pay_single_instruction_out_id = #{exPaySingleInstructionOutId}
+	</update>
+
+	<select id="getExPaySingleInstructionOut" parameterType="BigInteger" resultType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionOut">
+		select
+			ex_pay_single_instruction_out_id 	AS exPaySingleInstructionOutId,
+			ex_pay_single_instruction_in_id  	AS exPaySingleInstructionInId,
+			ex_bank_type_code                	AS exBankTypeCode,
+			ex_agency_code                   	AS exAgencyCode,
+			ex_tx_pack_no                    	AS exTxPackNo,
+			ex_order_id                      	AS exOrderId,
+			ex_order_no                      	AS exOrderNo,
+			ex_order_bank_no                 	AS exOrderBankNo,
+			ex_bank_sequence                 	AS exBankSequence,
+			ex_bank_status                   	AS exBankStatus,
+			ex_iRet_code                     	AS exIretCode,
+			ex_iRet_message                  	AS exIretMessage,
+			creator                          	AS creator,
+			modifier                         	AS modifier,
+			create_time                      	AS createTime,
+			last_modifi_time                 	AS lastModifiTime
+		from t_ex_pay_single_instruction_out
+		where ex_pay_single_instruction_out_id = #{exPaySingleInstructionOutId}
+	</select>
+
+	<select id="getExPaySingleInstructionOutList" parameterType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionOut" resultType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionOut">
+		select
+			ex_pay_single_instruction_out_id 	AS exPaySingleInstructionOutId,
+			ex_pay_single_instruction_in_id  	AS exPaySingleInstructionInId,
+			ex_bank_type_code                	AS exBankTypeCode,
+			ex_agency_code                   	AS exAgencyCode,
+			ex_tx_pack_no                    	AS exTxPackNo,
+			ex_order_id                      	AS exOrderId,
+			ex_order_no                      	AS exOrderNo,
+			ex_order_bank_no                 	AS exOrderBankNo,
+			ex_bank_sequence                 	AS exBankSequence,
+			ex_bank_status                   	AS exBankStatus,
+			ex_iRet_code                     	AS exIretCode,
+			ex_iRet_message                  	AS exIretMessage,
+			creator                          	AS creator,
+			modifier                         	AS modifier,
+			create_time                      	AS createTime,
+			last_modifi_time                 	AS lastModifiTime
+		from t_ex_pay_single_instruction_out
+		where ex_pay_single_instruction_out_id = #{exPaySingleInstructionOutId}
+	</select>
+
+	<resultMap id="exPaySingleInstructionOutDTO" type="com.iss.exchange.core.pay.dto.ExPaySingleInstructionOutDTO" >
+		<result column="ex_pay_single_instruction_out_id"  property="exPaySingleInstructionOutId"/>
+		<result column="ex_pay_single_instruction_in_id"  property="exPaySingleInstructionInId"/>
+		<result column="ex_bank_type_code"  property="exBankTypeCode"/>
+		<result column="ex_bank_type_desc"  property="exBankTypeDesc"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_tx_pack_no"  property="exTxPackNo"/>
+		<result column="ex_order_id"  property="exOrderId"/>
+		<result column="ex_order_no"  property="exOrderNo"/>
+		<result column="ex_order_bank_no"  property="exOrderBankNo"/>
+		<result column="ex_bank_sequence"  property="exBankSequence"/>
+		<result column="ex_bank_status"  property="exBankStatus"/>
+		<result column="ex_iRet_code"  property="exIretCode"/>
+		<result column="ex_iRet_desc"  property="exIretDesc"/>
+		<result column="ex_iRet_message"  property="exIretMessage"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExPaySingleInstructionOutDTO" parameterType="BigInteger" resultMap="exPaySingleInstructionOutDTO">
+		select
+			t.ex_pay_single_instruction_out_id 	AS ex_pay_single_instruction_out_id,
+			t.ex_pay_single_instruction_in_id  	AS ex_pay_single_instruction_in_id,
+			t.ex_bank_type_code                	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_agency_code                   	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_tx_pack_no                    	AS ex_tx_pack_no,
+			t.ex_order_id                      	AS ex_order_id,
+			t.ex_order_no                      	AS ex_order_no,
+			t.ex_order_bank_no                 	AS ex_order_bank_no,
+			t.ex_bank_sequence                 	AS ex_bank_sequence,
+			t.ex_bank_status                   	AS ex_bank_status,
+			t.ex_iRet_code                     	AS ex_iRet_code,
+			(select code_desc from  where code_type = 'exIretCode' and code = t.ex_iRet_code)	AS ex_iRet_desc,
+			t.ex_iRet_message                  	AS ex_iRet_message,
+			t.creator                          	AS creator,
+			t.modifier                         	AS modifier,
+			t.create_time                      	AS create_time,
+			t.last_modifi_time                 	AS last_modifi_time
+		from t_ex_pay_single_instruction_out t
+		where ex_pay_single_instruction_out_id = #{exPaySingleInstructionOutId}
+	</select>
+
+	<select id="getExPaySingleInstructionOutPageList" parameterType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionOut" resultMap="exPaySingleInstructionOutDTO">
+		select
+			t.ex_pay_single_instruction_out_id 	AS ex_pay_single_instruction_out_id,
+			t.ex_pay_single_instruction_in_id  	AS ex_pay_single_instruction_in_id,
+			t.ex_bank_type_code                	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_agency_code                   	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_tx_pack_no                    	AS ex_tx_pack_no,
+			t.ex_order_id                      	AS ex_order_id,
+			t.ex_order_no                      	AS ex_order_no,
+			t.ex_order_bank_no                 	AS ex_order_bank_no,
+			t.ex_bank_sequence                 	AS ex_bank_sequence,
+			t.ex_bank_status                   	AS ex_bank_status,
+			t.ex_iRet_code                     	AS ex_iRet_code,
+			(select code_desc from  where code_type = 'exIretCode' and code = t.ex_iRet_code)	AS ex_iRet_desc,
+			t.ex_iRet_message                  	AS ex_iRet_message,
+			t.creator                          	AS creator,
+			t.modifier                         	AS modifier,
+			t.create_time                      	AS create_time,
+			t.last_modifi_time                 	AS last_modifi_time
+		from t_ex_pay_single_instruction_out t
+	</select>
+
+
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.pay.dao.ExPayRouteInstructionOutDetailMapper">
+
+	<insert id="addExPayRouteInstructionOutDetail" parameterType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOutDetail">
+		insert into t_ex_pay_route_instruction_out_detail(ex_pay_route_instruction_int_detail_id,ex_pay_route_instrutction_out_id,ex_order_id,ex_order_no,ex_order_bank_no,ex_bank_status,ex_iRet_code,ex_iRet_message,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exPayRouteInstructionIntDetailId},''),IFNULL(#{exPayRouteInstrutctionOutId},''),IFNULL(#{exOrderId},''),IFNULL(#{exOrderNo},''),IFNULL(#{exOrderBankNo},''),IFNULL(#{exBankStatus},''),IFNULL(#{exIretCode},''),IFNULL(#{exIretMessage},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExPayRouteInstructionOutDetail" parameterType="java.util.List">
+		insert into t_ex_pay_route_instruction_out_detail(ex_pay_route_instruction_int_detail_id,ex_pay_route_instrutction_out_id,ex_order_id,ex_order_no,ex_order_bank_no,ex_bank_status,ex_iRet_code,ex_iRet_message,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exPayRouteInstructionIntDetailId},''),IFNULL(#{item.exPayRouteInstrutctionOutId},''),IFNULL(#{item.exOrderId},''),IFNULL(#{item.exOrderNo},''),IFNULL(#{item.exOrderBankNo},''),IFNULL(#{item.exBankStatus},''),IFNULL(#{item.exIretCode},''),IFNULL(#{item.exIretMessage},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExPayRouteInstructionOutDetail" parameterType="BigInteger">
+		delete from t_ex_pay_route_instruction_out_detail  where ex_pay_route_instrucrion_out_detail_id = #{exPayRouteInstrucrionOutDetailId}
+	</delete>
+
+	<delete id="batchDeleteExPayRouteInstructionOutDetail" parameterType="java.util.List">
+		delete from t_ex_pay_route_instruction_out_detail  where ex_pay_route_instrucrion_out_detail_id in
+		<foreach collection="exPayRouteInstrucrionOutDetailIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExPayRouteInstructionOutDetail" parameterType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOutDetail">
+		update t_ex_pay_route_instruction_out_detail set 
+			<if test="exPayRouteInstrucrionOutDetailId!= null">ex_pay_route_instrucrion_out_detail_id=#{exPayRouteInstrucrionOutDetailId},</if>
+			<if test="exPayRouteInstructionIntDetailId!= null">ex_pay_route_instruction_int_detail_id=#{exPayRouteInstructionIntDetailId},</if>
+			<if test="exPayRouteInstrutctionOutId!= null">ex_pay_route_instrutction_out_id=#{exPayRouteInstrutctionOutId},</if>
+			<if test="exOrderId!= null">ex_order_id=#{exOrderId},</if>
+			<if test="exOrderNo!= null">ex_order_no=#{exOrderNo},</if>
+			<if test="exOrderBankNo!= null">ex_order_bank_no=#{exOrderBankNo},</if>
+			<if test="exBankStatus!= null">ex_bank_status=#{exBankStatus},</if>
+			<if test="exIretCode!= null">ex_iRet_code=#{exIretCode},</if>
+			<if test="exIretMessage!= null">ex_iRet_message=#{exIretMessage},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_pay_route_instrucrion_out_detail_id = #{exPayRouteInstrucrionOutDetailId}
+	</update>
+
+	<select id="getExPayRouteInstructionOutDetail" parameterType="BigInteger" resultType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOutDetail">
+		select
+			ex_pay_route_instrucrion_out_detail_id 	AS exPayRouteInstrucrionOutDetailId,
+			ex_pay_route_instruction_int_detail_id 	AS exPayRouteInstructionIntDetailId,
+			ex_pay_route_instrutction_out_id       	AS exPayRouteInstrutctionOutId,
+			ex_order_id                            	AS exOrderId,
+			ex_order_no                            	AS exOrderNo,
+			ex_order_bank_no                       	AS exOrderBankNo,
+			ex_bank_status                         	AS exBankStatus,
+			ex_iRet_code                           	AS exIretCode,
+			ex_iRet_message                        	AS exIretMessage,
+			creator                                	AS creator,
+			modifier                               	AS modifier,
+			create_time                            	AS createTime,
+			last_modifi_time                       	AS lastModifiTime
+		from t_ex_pay_route_instruction_out_detail
+		where ex_pay_route_instrucrion_out_detail_id = #{exPayRouteInstrucrionOutDetailId}
+	</select>
+
+	<select id="getExPayRouteInstructionOutDetailList" parameterType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOutDetail" resultType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOutDetail">
+		select
+			ex_pay_route_instrucrion_out_detail_id 	AS exPayRouteInstrucrionOutDetailId,
+			ex_pay_route_instruction_int_detail_id 	AS exPayRouteInstructionIntDetailId,
+			ex_pay_route_instrutction_out_id       	AS exPayRouteInstrutctionOutId,
+			ex_order_id                            	AS exOrderId,
+			ex_order_no                            	AS exOrderNo,
+			ex_order_bank_no                       	AS exOrderBankNo,
+			ex_bank_status                         	AS exBankStatus,
+			ex_iRet_code                           	AS exIretCode,
+			ex_iRet_message                        	AS exIretMessage,
+			creator                                	AS creator,
+			modifier                               	AS modifier,
+			create_time                            	AS createTime,
+			last_modifi_time                       	AS lastModifiTime
+		from t_ex_pay_route_instruction_out_detail
+		where ex_pay_route_instrucrion_out_detail_id = #{exPayRouteInstrucrionOutDetailId}
+	</select>
+
+	<resultMap id="exPayRouteInstructionOutDetailDTO" type="com.iss.exchange.core.pay.dto.ExPayRouteInstructionOutDetailDTO" >
+		<result column="ex_pay_route_instrucrion_out_detail_id"  property="exPayRouteInstrucrionOutDetailId"/>
+		<result column="ex_pay_route_instruction_int_detail_id"  property="exPayRouteInstructionIntDetailId"/>
+		<result column="ex_pay_route_instrutction_out_id"  property="exPayRouteInstrutctionOutId"/>
+		<result column="ex_order_id"  property="exOrderId"/>
+		<result column="ex_order_no"  property="exOrderNo"/>
+		<result column="ex_order_bank_no"  property="exOrderBankNo"/>
+		<result column="ex_bank_status"  property="exBankStatus"/>
+		<result column="ex_iRet_code"  property="exIretCode"/>
+		<result column="ex_iRet_desc"  property="exIretDesc"/>
+		<result column="ex_iRet_message"  property="exIretMessage"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExPayRouteInstructionOutDetailDTO" parameterType="BigInteger" resultMap="exPayRouteInstructionOutDetailDTO">
+		select
+			t.ex_pay_route_instrucrion_out_detail_id 	AS ex_pay_route_instrucrion_out_detail_id,
+			t.ex_pay_route_instruction_int_detail_id 	AS ex_pay_route_instruction_int_detail_id,
+			t.ex_pay_route_instrutction_out_id       	AS ex_pay_route_instrutction_out_id,
+			t.ex_order_id                            	AS ex_order_id,
+			t.ex_order_no                            	AS ex_order_no,
+			t.ex_order_bank_no                       	AS ex_order_bank_no,
+			t.ex_bank_status                         	AS ex_bank_status,
+			t.ex_iRet_code                           	AS ex_iRet_code,
+			(select code_desc from  where code_type = 'exIretCode' and code = t.ex_iRet_code)	AS ex_iRet_desc,
+			t.ex_iRet_message                        	AS ex_iRet_message,
+			t.creator                                	AS creator,
+			t.modifier                               	AS modifier,
+			t.create_time                            	AS create_time,
+			t.last_modifi_time                       	AS last_modifi_time
+		from t_ex_pay_route_instruction_out_detail t
+		where ex_pay_route_instrucrion_out_detail_id = #{exPayRouteInstrucrionOutDetailId}
+	</select>
+
+	<select id="getExPayRouteInstructionOutDetailPageList" parameterType="com.iss.exchange.core.pay.entity.ExPayRouteInstructionOutDetail" resultMap="exPayRouteInstructionOutDetailDTO">
+		select
+			t.ex_pay_route_instrucrion_out_detail_id 	AS ex_pay_route_instrucrion_out_detail_id,
+			t.ex_pay_route_instruction_int_detail_id 	AS ex_pay_route_instruction_int_detail_id,
+			t.ex_pay_route_instrutction_out_id       	AS ex_pay_route_instrutction_out_id,
+			t.ex_order_id                            	AS ex_order_id,
+			t.ex_order_no                            	AS ex_order_no,
+			t.ex_order_bank_no                       	AS ex_order_bank_no,
+			t.ex_bank_status                         	AS ex_bank_status,
+			t.ex_iRet_code                           	AS ex_iRet_code,
+			(select code_desc from  where code_type = 'exIretCode' and code = t.ex_iRet_code)	AS ex_iRet_desc,
+			t.ex_iRet_message                        	AS ex_iRet_message,
+			t.creator                                	AS creator,
+			t.modifier                               	AS modifier,
+			t.create_time                            	AS create_time,
+			t.last_modifi_time                       	AS last_modifi_time
+		from t_ex_pay_route_instruction_out_detail t
+	</select>
+
+
+</mapper>

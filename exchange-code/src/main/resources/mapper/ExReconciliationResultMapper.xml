@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.transaction.dao.ExReconciliationResultMapper">
+
+	<insert id="addExReconciliationResult" parameterType="com.iss.exchange.core.transaction.entity.ExReconciliationResult">
+		insert into t_ex_reconciliation_result(creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExReconciliationResult" parameterType="java.util.List">
+		insert into t_ex_reconciliation_result(creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExReconciliationResult" parameterType="BigInteger">
+		delete from t_ex_reconciliation_result  where ex_reconciliation_result_id = #{exReconciliationResultId}
+	</delete>
+
+	<delete id="batchDeleteExReconciliationResult" parameterType="java.util.List">
+		delete from t_ex_reconciliation_result  where ex_reconciliation_result_id in
+		<foreach collection="exReconciliationResultIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExReconciliationResult" parameterType="com.iss.exchange.core.transaction.entity.ExReconciliationResult">
+		update t_ex_reconciliation_result set 
+			<if test="exReconciliationResultId!= null">ex_reconciliation_result_id=#{exReconciliationResultId},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_reconciliation_result_id = #{exReconciliationResultId}
+	</update>
+
+	<select id="getExReconciliationResult" parameterType="BigInteger" resultType="com.iss.exchange.core.transaction.entity.ExReconciliationResult">
+		select
+			ex_reconciliation_result_id 	AS exReconciliationResultId,
+			creator                     	AS creator,
+			modifier                    	AS modifier,
+			create_time                 	AS createTime,
+			last_modifi_time            	AS lastModifiTime
+		from t_ex_reconciliation_result
+		where ex_reconciliation_result_id = #{exReconciliationResultId}
+	</select>
+
+	<select id="getExReconciliationResultList" parameterType="com.iss.exchange.core.transaction.entity.ExReconciliationResult" resultType="com.iss.exchange.core.transaction.entity.ExReconciliationResult">
+		select
+			ex_reconciliation_result_id 	AS exReconciliationResultId,
+			creator                     	AS creator,
+			modifier                    	AS modifier,
+			create_time                 	AS createTime,
+			last_modifi_time            	AS lastModifiTime
+		from t_ex_reconciliation_result
+		where ex_reconciliation_result_id = #{exReconciliationResultId}
+	</select>
+
+	<resultMap id="exReconciliationResultDTO" type="com.iss.exchange.core.transaction.dto.ExReconciliationResultDTO" >
+		<result column="ex_reconciliation_result_id"  property="exReconciliationResultId"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExReconciliationResultDTO" parameterType="BigInteger" resultMap="exReconciliationResultDTO">
+		select
+			t.ex_reconciliation_result_id 	AS ex_reconciliation_result_id,
+			t.creator                     	AS creator,
+			t.modifier                    	AS modifier,
+			t.create_time                 	AS create_time,
+			t.last_modifi_time            	AS last_modifi_time
+		from t_ex_reconciliation_result t
+		where ex_reconciliation_result_id = #{exReconciliationResultId}
+	</select>
+
+	<select id="getExReconciliationResultPageList" parameterType="com.iss.exchange.core.transaction.entity.ExReconciliationResult" resultMap="exReconciliationResultDTO">
+		select
+			t.ex_reconciliation_result_id 	AS ex_reconciliation_result_id,
+			t.creator                     	AS creator,
+			t.modifier                    	AS modifier,
+			t.create_time                 	AS create_time,
+			t.last_modifi_time            	AS last_modifi_time
+		from t_ex_reconciliation_result t
+	</select>
+
+
+</mapper>

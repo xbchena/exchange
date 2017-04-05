@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.common.dao.ExBankParameterMapper">
+
+	<insert id="addExBankParameter" parameterType="com.iss.exchange.core.common.entity.ExBankParameter">
+		insert into t_ex_bank_parameter(ex_agency_code,ex_bank_type_code,ex_business_type_code,ex_bank_parameter1,ex_bank_parameter2,ex_bank_parameter3,ex_bank_parameter4,ex_bank_parameter5,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exAgencyCode},''),IFNULL(#{exBankTypeCode},''),IFNULL(#{exBusinessTypeCode},''),IFNULL(#{exBankParameter1},''),IFNULL(#{exBankParameter2},''),IFNULL(#{exBankParameter3},''),IFNULL(#{exBankParameter4},''),IFNULL(#{exBankParameter5},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExBankParameter" parameterType="java.util.List">
+		insert into t_ex_bank_parameter(ex_agency_code,ex_bank_type_code,ex_business_type_code,ex_bank_parameter1,ex_bank_parameter2,ex_bank_parameter3,ex_bank_parameter4,ex_bank_parameter5,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exBankTypeCode},''),IFNULL(#{item.exBusinessTypeCode},''),IFNULL(#{item.exBankParameter1},''),IFNULL(#{item.exBankParameter2},''),IFNULL(#{item.exBankParameter3},''),IFNULL(#{item.exBankParameter4},''),IFNULL(#{item.exBankParameter5},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExBankParameter" parameterType="BigInteger">
+		delete from t_ex_bank_parameter  where ex_bank_parameter_id = #{exBankParameterId}
+	</delete>
+
+	<delete id="batchDeleteExBankParameter" parameterType="java.util.List">
+		delete from t_ex_bank_parameter  where ex_bank_parameter_id in
+		<foreach collection="exBankParameterIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExBankParameter" parameterType="com.iss.exchange.core.common.entity.ExBankParameter">
+		update t_ex_bank_parameter set 
+			<if test="exBankParameterId!= null">ex_bank_parameter_id=#{exBankParameterId},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exBankTypeCode!= null">ex_bank_type_code=#{exBankTypeCode},</if>
+			<if test="exBusinessTypeCode!= null">ex_business_type_code=#{exBusinessTypeCode},</if>
+			<if test="exBankParameter1!= null">ex_bank_parameter1=#{exBankParameter1},</if>
+			<if test="exBankParameter2!= null">ex_bank_parameter2=#{exBankParameter2},</if>
+			<if test="exBankParameter3!= null">ex_bank_parameter3=#{exBankParameter3},</if>
+			<if test="exBankParameter4!= null">ex_bank_parameter4=#{exBankParameter4},</if>
+			<if test="exBankParameter5!= null">ex_bank_parameter5=#{exBankParameter5},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_bank_parameter_id = #{exBankParameterId}
+	</update>
+
+	<select id="getExBankParameter" parameterType="BigInteger" resultType="com.iss.exchange.core.common.entity.ExBankParameter">
+		select
+			ex_bank_parameter_id  	AS exBankParameterId,
+			ex_agency_code        	AS exAgencyCode,
+			ex_bank_type_code     	AS exBankTypeCode,
+			ex_business_type_code 	AS exBusinessTypeCode,
+			ex_bank_parameter1    	AS exBankParameter1,
+			ex_bank_parameter2    	AS exBankParameter2,
+			ex_bank_parameter3    	AS exBankParameter3,
+			ex_bank_parameter4    	AS exBankParameter4,
+			ex_bank_parameter5    	AS exBankParameter5,
+			creator               	AS creator,
+			modifier              	AS modifier,
+			create_time           	AS createTime,
+			last_modifi_time      	AS lastModifiTime
+		from t_ex_bank_parameter
+		where ex_bank_parameter_id = #{exBankParameterId}
+	</select>
+
+	<select id="getExBankParameterList" parameterType="com.iss.exchange.core.common.entity.ExBankParameter" resultType="com.iss.exchange.core.common.entity.ExBankParameter">
+		select
+			ex_bank_parameter_id  	AS exBankParameterId,
+			ex_agency_code        	AS exAgencyCode,
+			ex_bank_type_code     	AS exBankTypeCode,
+			ex_business_type_code 	AS exBusinessTypeCode,
+			ex_bank_parameter1    	AS exBankParameter1,
+			ex_bank_parameter2    	AS exBankParameter2,
+			ex_bank_parameter3    	AS exBankParameter3,
+			ex_bank_parameter4    	AS exBankParameter4,
+			ex_bank_parameter5    	AS exBankParameter5,
+			creator               	AS creator,
+			modifier              	AS modifier,
+			create_time           	AS createTime,
+			last_modifi_time      	AS lastModifiTime
+		from t_ex_bank_parameter
+		where ex_bank_parameter_id = #{exBankParameterId}
+	</select>
+
+	<resultMap id="exBankParameterDTO" type="com.iss.exchange.core.common.dto.ExBankParameterDTO" >
+		<result column="ex_bank_parameter_id"  property="exBankParameterId"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_bank_type_code"  property="exBankTypeCode"/>
+		<result column="ex_bank_type_desc"  property="exBankTypeDesc"/>
+		<result column="ex_business_type_code"  property="exBusinessTypeCode"/>
+		<result column="ex_business_type_desc"  property="exBusinessTypeDesc"/>
+		<result column="ex_bank_parameter1"  property="exBankParameter1"/>
+		<result column="ex_bank_parameter2"  property="exBankParameter2"/>
+		<result column="ex_bank_parameter3"  property="exBankParameter3"/>
+		<result column="ex_bank_parameter4"  property="exBankParameter4"/>
+		<result column="ex_bank_parameter5"  property="exBankParameter5"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExBankParameterDTO" parameterType="BigInteger" resultMap="exBankParameterDTO">
+		select
+			t.ex_bank_parameter_id  	AS ex_bank_parameter_id,
+			t.ex_agency_code        	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_bank_type_code     	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_business_type_code 	AS ex_business_type_code,
+			(select code_desc from  where code_type = 'exBusinessTypeCode' and code = t.ex_business_type_code)	AS ex_business_type_desc,
+			t.ex_bank_parameter1    	AS ex_bank_parameter1,
+			t.ex_bank_parameter2    	AS ex_bank_parameter2,
+			t.ex_bank_parameter3    	AS ex_bank_parameter3,
+			t.ex_bank_parameter4    	AS ex_bank_parameter4,
+			t.ex_bank_parameter5    	AS ex_bank_parameter5,
+			t.creator               	AS creator,
+			t.modifier              	AS modifier,
+			t.create_time           	AS create_time,
+			t.last_modifi_time      	AS last_modifi_time
+		from t_ex_bank_parameter t
+		where ex_bank_parameter_id = #{exBankParameterId}
+	</select>
+
+	<select id="getExBankParameterPageList" parameterType="com.iss.exchange.core.common.entity.ExBankParameter" resultMap="exBankParameterDTO">
+		select
+			t.ex_bank_parameter_id  	AS ex_bank_parameter_id,
+			t.ex_agency_code        	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_bank_type_code     	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_business_type_code 	AS ex_business_type_code,
+			(select code_desc from  where code_type = 'exBusinessTypeCode' and code = t.ex_business_type_code)	AS ex_business_type_desc,
+			t.ex_bank_parameter1    	AS ex_bank_parameter1,
+			t.ex_bank_parameter2    	AS ex_bank_parameter2,
+			t.ex_bank_parameter3    	AS ex_bank_parameter3,
+			t.ex_bank_parameter4    	AS ex_bank_parameter4,
+			t.ex_bank_parameter5    	AS ex_bank_parameter5,
+			t.creator               	AS creator,
+			t.modifier              	AS modifier,
+			t.create_time           	AS create_time,
+			t.last_modifi_time      	AS last_modifi_time
+		from t_ex_bank_parameter t
+	</select>
+
+
+</mapper>

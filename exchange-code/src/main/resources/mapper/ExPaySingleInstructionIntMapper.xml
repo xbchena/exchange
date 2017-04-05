@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.pay.dao.ExPaySingleInstructionIntMapper">
+
+	<insert id="addExPaySingleInstructionInt" parameterType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionInt">
+		insert into t_ex_pay_single_instruction_int(ex_version,ex_tx_time,ex_agency_code,ex_agency_name,ex_login_id,ex_login_pwd,ex_tx_pack_no,ex_order_id,ex_order_no,ex_order_bank_no,ex_pay_account_no,ex_pay_account_name,ex_pay_branch_name,ex_pay_branch_type,ex_pay_provice_name,ex_pay_city_name,ex_rec_account_no,ex_rec_account_name,ex_rec_branch_name,ex_rec_branch_type,ex_rec_bank_cnaps,ex_rec_city_name,ex_rec_provice_name,ex_rec_branch_unite_code,ex_rec_card_flag,ex_rec_cont_phone,ex_pay_type,ex_pay_amt,ex_curr_type,ex_sys_io_flg,ex_is_same_city,ex_prop,ex_pay_bus_type,ex_summary,ex_post_script,ex_req_resvered1,ex_req_resvered2,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exVersion},''),IFNULL(#{exTxTime},''),IFNULL(#{exAgencyCode},''),IFNULL(#{exAgencyName},''),IFNULL(#{exLoginId},''),IFNULL(#{exLoginPwd},''),IFNULL(#{exTxPackNo},''),IFNULL(#{exOrderId},''),IFNULL(#{exOrderNo},''),IFNULL(#{exOrderBankNo},''),IFNULL(#{exPayAccountNo},''),IFNULL(#{exPayAccountName},''),IFNULL(#{exPayBranchName},''),IFNULL(#{exPayBranchType},''),IFNULL(#{exPayProviceName},''),IFNULL(#{exPayCityName},''),IFNULL(#{exRecAccountNo},''),IFNULL(#{exRecAccountName},''),IFNULL(#{exRecBranchName},''),IFNULL(#{exRecBranchType},''),IFNULL(#{exRecBankCnaps},''),IFNULL(#{exRecCityName},''),IFNULL(#{exRecProviceName},''),IFNULL(#{exRecBranchUniteCode},''),IFNULL(#{exRecCardFlag},''),IFNULL(#{exRecContPhone},''),IFNULL(#{exPayType},''),IFNULL(#{exPayAmt},''),IFNULL(#{exCurrType},''),IFNULL(#{exSysIoFlg},''),IFNULL(#{exIsSameCity},''),IFNULL(#{exProp},''),IFNULL(#{exPayBusType},''),IFNULL(#{exSummary},''),IFNULL(#{exPostScript},''),IFNULL(#{exReqResvered1},''),IFNULL(#{exReqResvered2},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExPaySingleInstructionInt" parameterType="java.util.List">
+		insert into t_ex_pay_single_instruction_int(ex_version,ex_tx_time,ex_agency_code,ex_agency_name,ex_login_id,ex_login_pwd,ex_tx_pack_no,ex_order_id,ex_order_no,ex_order_bank_no,ex_pay_account_no,ex_pay_account_name,ex_pay_branch_name,ex_pay_branch_type,ex_pay_provice_name,ex_pay_city_name,ex_rec_account_no,ex_rec_account_name,ex_rec_branch_name,ex_rec_branch_type,ex_rec_bank_cnaps,ex_rec_city_name,ex_rec_provice_name,ex_rec_branch_unite_code,ex_rec_card_flag,ex_rec_cont_phone,ex_pay_type,ex_pay_amt,ex_curr_type,ex_sys_io_flg,ex_is_same_city,ex_prop,ex_pay_bus_type,ex_summary,ex_post_script,ex_req_resvered1,ex_req_resvered2,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exVersion},''),IFNULL(#{item.exTxTime},''),IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exAgencyName},''),IFNULL(#{item.exLoginId},''),IFNULL(#{item.exLoginPwd},''),IFNULL(#{item.exTxPackNo},''),IFNULL(#{item.exOrderId},''),IFNULL(#{item.exOrderNo},''),IFNULL(#{item.exOrderBankNo},''),IFNULL(#{item.exPayAccountNo},''),IFNULL(#{item.exPayAccountName},''),IFNULL(#{item.exPayBranchName},''),IFNULL(#{item.exPayBranchType},''),IFNULL(#{item.exPayProviceName},''),IFNULL(#{item.exPayCityName},''),IFNULL(#{item.exRecAccountNo},''),IFNULL(#{item.exRecAccountName},''),IFNULL(#{item.exRecBranchName},''),IFNULL(#{item.exRecBranchType},''),IFNULL(#{item.exRecBankCnaps},''),IFNULL(#{item.exRecCityName},''),IFNULL(#{item.exRecProviceName},''),IFNULL(#{item.exRecBranchUniteCode},''),IFNULL(#{item.exRecCardFlag},''),IFNULL(#{item.exRecContPhone},''),IFNULL(#{item.exPayType},''),IFNULL(#{item.exPayAmt},''),IFNULL(#{item.exCurrType},''),IFNULL(#{item.exSysIoFlg},''),IFNULL(#{item.exIsSameCity},''),IFNULL(#{item.exProp},''),IFNULL(#{item.exPayBusType},''),IFNULL(#{item.exSummary},''),IFNULL(#{item.exPostScript},''),IFNULL(#{item.exReqResvered1},''),IFNULL(#{item.exReqResvered2},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExPaySingleInstructionInt" parameterType="BigInteger">
+		delete from t_ex_pay_single_instruction_int  where ex_pay_single_instruction_in_id = #{exPaySingleInstructionInId}
+	</delete>
+
+	<delete id="batchDeleteExPaySingleInstructionInt" parameterType="java.util.List">
+		delete from t_ex_pay_single_instruction_int  where ex_pay_single_instruction_in_id in
+		<foreach collection="exPaySingleInstructionInIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExPaySingleInstructionInt" parameterType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionInt">
+		update t_ex_pay_single_instruction_int set 
+			<if test="exPaySingleInstructionInId!= null">ex_pay_single_instruction_in_id=#{exPaySingleInstructionInId},</if>
+			<if test="exVersion!= null">ex_version=#{exVersion},</if>
+			<if test="exTxTime!= null">ex_tx_time=#{exTxTime},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exAgencyName!= null">ex_agency_name=#{exAgencyName},</if>
+			<if test="exLoginId!= null">ex_login_id=#{exLoginId},</if>
+			<if test="exLoginPwd!= null">ex_login_pwd=#{exLoginPwd},</if>
+			<if test="exTxPackNo!= null">ex_tx_pack_no=#{exTxPackNo},</if>
+			<if test="exOrderId!= null">ex_order_id=#{exOrderId},</if>
+			<if test="exOrderNo!= null">ex_order_no=#{exOrderNo},</if>
+			<if test="exOrderBankNo!= null">ex_order_bank_no=#{exOrderBankNo},</if>
+			<if test="exPayAccountNo!= null">ex_pay_account_no=#{exPayAccountNo},</if>
+			<if test="exPayAccountName!= null">ex_pay_account_name=#{exPayAccountName},</if>
+			<if test="exPayBranchName!= null">ex_pay_branch_name=#{exPayBranchName},</if>
+			<if test="exPayBranchType!= null">ex_pay_branch_type=#{exPayBranchType},</if>
+			<if test="exPayProviceName!= null">ex_pay_provice_name=#{exPayProviceName},</if>
+			<if test="exPayCityName!= null">ex_pay_city_name=#{exPayCityName},</if>
+			<if test="exRecAccountNo!= null">ex_rec_account_no=#{exRecAccountNo},</if>
+			<if test="exRecAccountName!= null">ex_rec_account_name=#{exRecAccountName},</if>
+			<if test="exRecBranchName!= null">ex_rec_branch_name=#{exRecBranchName},</if>
+			<if test="exRecBranchType!= null">ex_rec_branch_type=#{exRecBranchType},</if>
+			<if test="exRecBankCnaps!= null">ex_rec_bank_cnaps=#{exRecBankCnaps},</if>
+			<if test="exRecCityName!= null">ex_rec_city_name=#{exRecCityName},</if>
+			<if test="exRecProviceName!= null">ex_rec_provice_name=#{exRecProviceName},</if>
+			<if test="exRecBranchUniteCode!= null">ex_rec_branch_unite_code=#{exRecBranchUniteCode},</if>
+			<if test="exRecCardFlag!= null">ex_rec_card_flag=#{exRecCardFlag},</if>
+			<if test="exRecContPhone!= null">ex_rec_cont_phone=#{exRecContPhone},</if>
+			<if test="exPayType!= null">ex_pay_type=#{exPayType},</if>
+			<if test="exPayAmt!= null">ex_pay_amt=#{exPayAmt},</if>
+			<if test="exCurrType!= null">ex_curr_type=#{exCurrType},</if>
+			<if test="exSysIoFlg!= null">ex_sys_io_flg=#{exSysIoFlg},</if>
+			<if test="exIsSameCity!= null">ex_is_same_city=#{exIsSameCity},</if>
+			<if test="exProp!= null">ex_prop=#{exProp},</if>
+			<if test="exPayBusType!= null">ex_pay_bus_type=#{exPayBusType},</if>
+			<if test="exSummary!= null">ex_summary=#{exSummary},</if>
+			<if test="exPostScript!= null">ex_post_script=#{exPostScript},</if>
+			<if test="exReqResvered1!= null">ex_req_resvered1=#{exReqResvered1},</if>
+			<if test="exReqResvered2!= null">ex_req_resvered2=#{exReqResvered2},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_pay_single_instruction_in_id = #{exPaySingleInstructionInId}
+	</update>
+
+	<select id="getExPaySingleInstructionInt" parameterType="BigInteger" resultType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionInt">
+		select
+			ex_pay_single_instruction_in_id 	AS exPaySingleInstructionInId,
+			ex_version                      	AS exVersion,
+			ex_tx_time                      	AS exTxTime,
+			ex_agency_code                  	AS exAgencyCode,
+			ex_agency_name                  	AS exAgencyName,
+			ex_login_id                     	AS exLoginId,
+			ex_login_pwd                    	AS exLoginPwd,
+			ex_tx_pack_no                   	AS exTxPackNo,
+			ex_order_id                     	AS exOrderId,
+			ex_order_no                     	AS exOrderNo,
+			ex_order_bank_no                	AS exOrderBankNo,
+			ex_pay_account_no               	AS exPayAccountNo,
+			ex_pay_account_name             	AS exPayAccountName,
+			ex_pay_branch_name              	AS exPayBranchName,
+			ex_pay_branch_type              	AS exPayBranchType,
+			ex_pay_provice_name             	AS exPayProviceName,
+			ex_pay_city_name                	AS exPayCityName,
+			ex_rec_account_no               	AS exRecAccountNo,
+			ex_rec_account_name             	AS exRecAccountName,
+			ex_rec_branch_name              	AS exRecBranchName,
+			ex_rec_branch_type              	AS exRecBranchType,
+			ex_rec_bank_cnaps               	AS exRecBankCnaps,
+			ex_rec_city_name                	AS exRecCityName,
+			ex_rec_provice_name             	AS exRecProviceName,
+			ex_rec_branch_unite_code        	AS exRecBranchUniteCode,
+			ex_rec_card_flag                	AS exRecCardFlag,
+			ex_rec_cont_phone               	AS exRecContPhone,
+			ex_pay_type                     	AS exPayType,
+			ex_pay_amt                      	AS exPayAmt,
+			ex_curr_type                    	AS exCurrType,
+			ex_sys_io_flg                   	AS exSysIoFlg,
+			ex_is_same_city                 	AS exIsSameCity,
+			ex_prop                         	AS exProp,
+			ex_pay_bus_type                 	AS exPayBusType,
+			ex_summary                      	AS exSummary,
+			ex_post_script                  	AS exPostScript,
+			ex_req_resvered1                	AS exReqResvered1,
+			ex_req_resvered2                	AS exReqResvered2,
+			creator                         	AS creator,
+			modifier                        	AS modifier,
+			create_time                     	AS createTime,
+			last_modifi_time                	AS lastModifiTime
+		from t_ex_pay_single_instruction_int
+		where ex_pay_single_instruction_in_id = #{exPaySingleInstructionInId}
+	</select>
+
+	<select id="getExPaySingleInstructionIntList" parameterType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionInt" resultType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionInt">
+		select
+			ex_pay_single_instruction_in_id 	AS exPaySingleInstructionInId,
+			ex_version                      	AS exVersion,
+			ex_tx_time                      	AS exTxTime,
+			ex_agency_code                  	AS exAgencyCode,
+			ex_agency_name                  	AS exAgencyName,
+			ex_login_id                     	AS exLoginId,
+			ex_login_pwd                    	AS exLoginPwd,
+			ex_tx_pack_no                   	AS exTxPackNo,
+			ex_order_id                     	AS exOrderId,
+			ex_order_no                     	AS exOrderNo,
+			ex_order_bank_no                	AS exOrderBankNo,
+			ex_pay_account_no               	AS exPayAccountNo,
+			ex_pay_account_name             	AS exPayAccountName,
+			ex_pay_branch_name              	AS exPayBranchName,
+			ex_pay_branch_type              	AS exPayBranchType,
+			ex_pay_provice_name             	AS exPayProviceName,
+			ex_pay_city_name                	AS exPayCityName,
+			ex_rec_account_no               	AS exRecAccountNo,
+			ex_rec_account_name             	AS exRecAccountName,
+			ex_rec_branch_name              	AS exRecBranchName,
+			ex_rec_branch_type              	AS exRecBranchType,
+			ex_rec_bank_cnaps               	AS exRecBankCnaps,
+			ex_rec_city_name                	AS exRecCityName,
+			ex_rec_provice_name             	AS exRecProviceName,
+			ex_rec_branch_unite_code        	AS exRecBranchUniteCode,
+			ex_rec_card_flag                	AS exRecCardFlag,
+			ex_rec_cont_phone               	AS exRecContPhone,
+			ex_pay_type                     	AS exPayType,
+			ex_pay_amt                      	AS exPayAmt,
+			ex_curr_type                    	AS exCurrType,
+			ex_sys_io_flg                   	AS exSysIoFlg,
+			ex_is_same_city                 	AS exIsSameCity,
+			ex_prop                         	AS exProp,
+			ex_pay_bus_type                 	AS exPayBusType,
+			ex_summary                      	AS exSummary,
+			ex_post_script                  	AS exPostScript,
+			ex_req_resvered1                	AS exReqResvered1,
+			ex_req_resvered2                	AS exReqResvered2,
+			creator                         	AS creator,
+			modifier                        	AS modifier,
+			create_time                     	AS createTime,
+			last_modifi_time                	AS lastModifiTime
+		from t_ex_pay_single_instruction_int
+		where ex_pay_single_instruction_in_id = #{exPaySingleInstructionInId}
+	</select>
+
+	<resultMap id="exPaySingleInstructionIntDTO" type="com.iss.exchange.core.pay.dto.ExPaySingleInstructionIntDTO" >
+		<result column="ex_pay_single_instruction_in_id"  property="exPaySingleInstructionInId"/>
+		<result column="ex_version"  property="exVersion"/>
+		<result column="ex_tx_time"  property="exTxTime"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_agency_name"  property="exAgencyName"/>
+		<result column="ex_login_id"  property="exLoginId"/>
+		<result column="ex_login_pwd"  property="exLoginPwd"/>
+		<result column="ex_tx_pack_no"  property="exTxPackNo"/>
+		<result column="ex_order_id"  property="exOrderId"/>
+		<result column="ex_order_no"  property="exOrderNo"/>
+		<result column="ex_order_bank_no"  property="exOrderBankNo"/>
+		<result column="ex_pay_account_no"  property="exPayAccountNo"/>
+		<result column="ex_pay_account_name"  property="exPayAccountName"/>
+		<result column="ex_pay_branch_name"  property="exPayBranchName"/>
+		<result column="ex_pay_branch_type"  property="exPayBranchType"/>
+		<result column="ex_pay_provice_name"  property="exPayProviceName"/>
+		<result column="ex_pay_city_name"  property="exPayCityName"/>
+		<result column="ex_rec_account_no"  property="exRecAccountNo"/>
+		<result column="ex_rec_account_name"  property="exRecAccountName"/>
+		<result column="ex_rec_branch_name"  property="exRecBranchName"/>
+		<result column="ex_rec_branch_type"  property="exRecBranchType"/>
+		<result column="ex_rec_bank_cnaps"  property="exRecBankCnaps"/>
+		<result column="ex_rec_city_name"  property="exRecCityName"/>
+		<result column="ex_rec_provice_name"  property="exRecProviceName"/>
+		<result column="ex_rec_branch_unite_code"  property="exRecBranchUniteCode"/>
+		<result column="ex_rec_branch_unite_desc"  property="exRecBranchUniteDesc"/>
+		<result column="ex_rec_card_flag"  property="exRecCardFlag"/>
+		<result column="ex_rec_cont_phone"  property="exRecContPhone"/>
+		<result column="ex_pay_type"  property="exPayType"/>
+		<result column="ex_pay_amt"  property="exPayAmt"/>
+		<result column="ex_curr_type"  property="exCurrType"/>
+		<result column="ex_sys_io_flg"  property="exSysIoFlg"/>
+		<result column="ex_is_same_city"  property="exIsSameCity"/>
+		<result column="ex_prop"  property="exProp"/>
+		<result column="ex_pay_bus_type"  property="exPayBusType"/>
+		<result column="ex_summary"  property="exSummary"/>
+		<result column="ex_post_script"  property="exPostScript"/>
+		<result column="ex_req_resvered1"  property="exReqResvered1"/>
+		<result column="ex_req_resvered2"  property="exReqResvered2"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExPaySingleInstructionIntDTO" parameterType="BigInteger" resultMap="exPaySingleInstructionIntDTO">
+		select
+			t.ex_pay_single_instruction_in_id 	AS ex_pay_single_instruction_in_id,
+			t.ex_version                      	AS ex_version,
+			t.ex_tx_time                      	AS ex_tx_time,
+			t.ex_agency_code                  	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_agency_name                  	AS ex_agency_name,
+			t.ex_login_id                     	AS ex_login_id,
+			t.ex_login_pwd                    	AS ex_login_pwd,
+			t.ex_tx_pack_no                   	AS ex_tx_pack_no,
+			t.ex_order_id                     	AS ex_order_id,
+			t.ex_order_no                     	AS ex_order_no,
+			t.ex_order_bank_no                	AS ex_order_bank_no,
+			t.ex_pay_account_no               	AS ex_pay_account_no,
+			t.ex_pay_account_name             	AS ex_pay_account_name,
+			t.ex_pay_branch_name              	AS ex_pay_branch_name,
+			t.ex_pay_branch_type              	AS ex_pay_branch_type,
+			t.ex_pay_provice_name             	AS ex_pay_provice_name,
+			t.ex_pay_city_name                	AS ex_pay_city_name,
+			t.ex_rec_account_no               	AS ex_rec_account_no,
+			t.ex_rec_account_name             	AS ex_rec_account_name,
+			t.ex_rec_branch_name              	AS ex_rec_branch_name,
+			t.ex_rec_branch_type              	AS ex_rec_branch_type,
+			t.ex_rec_bank_cnaps               	AS ex_rec_bank_cnaps,
+			t.ex_rec_city_name                	AS ex_rec_city_name,
+			t.ex_rec_provice_name             	AS ex_rec_provice_name,
+			t.ex_rec_branch_unite_code        	AS ex_rec_branch_unite_code,
+			(select code_desc from  where code_type = 'exRecBranchUniteCode' and code = t.ex_rec_branch_unite_code)	AS ex_rec_branch_unite_desc,
+			t.ex_rec_card_flag                	AS ex_rec_card_flag,
+			t.ex_rec_cont_phone               	AS ex_rec_cont_phone,
+			t.ex_pay_type                     	AS ex_pay_type,
+			t.ex_pay_amt                      	AS ex_pay_amt,
+			t.ex_curr_type                    	AS ex_curr_type,
+			t.ex_sys_io_flg                   	AS ex_sys_io_flg,
+			t.ex_is_same_city                 	AS ex_is_same_city,
+			t.ex_prop                         	AS ex_prop,
+			t.ex_pay_bus_type                 	AS ex_pay_bus_type,
+			t.ex_summary                      	AS ex_summary,
+			t.ex_post_script                  	AS ex_post_script,
+			t.ex_req_resvered1                	AS ex_req_resvered1,
+			t.ex_req_resvered2                	AS ex_req_resvered2,
+			t.creator                         	AS creator,
+			t.modifier                        	AS modifier,
+			t.create_time                     	AS create_time,
+			t.last_modifi_time                	AS last_modifi_time
+		from t_ex_pay_single_instruction_int t
+		where ex_pay_single_instruction_in_id = #{exPaySingleInstructionInId}
+	</select>
+
+	<select id="getExPaySingleInstructionIntPageList" parameterType="com.iss.exchange.core.pay.entity.ExPaySingleInstructionInt" resultMap="exPaySingleInstructionIntDTO">
+		select
+			t.ex_pay_single_instruction_in_id 	AS ex_pay_single_instruction_in_id,
+			t.ex_version                      	AS ex_version,
+			t.ex_tx_time                      	AS ex_tx_time,
+			t.ex_agency_code                  	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_agency_name                  	AS ex_agency_name,
+			t.ex_login_id                     	AS ex_login_id,
+			t.ex_login_pwd                    	AS ex_login_pwd,
+			t.ex_tx_pack_no                   	AS ex_tx_pack_no,
+			t.ex_order_id                     	AS ex_order_id,
+			t.ex_order_no                     	AS ex_order_no,
+			t.ex_order_bank_no                	AS ex_order_bank_no,
+			t.ex_pay_account_no               	AS ex_pay_account_no,
+			t.ex_pay_account_name             	AS ex_pay_account_name,
+			t.ex_pay_branch_name              	AS ex_pay_branch_name,
+			t.ex_pay_branch_type              	AS ex_pay_branch_type,
+			t.ex_pay_provice_name             	AS ex_pay_provice_name,
+			t.ex_pay_city_name                	AS ex_pay_city_name,
+			t.ex_rec_account_no               	AS ex_rec_account_no,
+			t.ex_rec_account_name             	AS ex_rec_account_name,
+			t.ex_rec_branch_name              	AS ex_rec_branch_name,
+			t.ex_rec_branch_type              	AS ex_rec_branch_type,
+			t.ex_rec_bank_cnaps               	AS ex_rec_bank_cnaps,
+			t.ex_rec_city_name                	AS ex_rec_city_name,
+			t.ex_rec_provice_name             	AS ex_rec_provice_name,
+			t.ex_rec_branch_unite_code        	AS ex_rec_branch_unite_code,
+			(select code_desc from  where code_type = 'exRecBranchUniteCode' and code = t.ex_rec_branch_unite_code)	AS ex_rec_branch_unite_desc,
+			t.ex_rec_card_flag                	AS ex_rec_card_flag,
+			t.ex_rec_cont_phone               	AS ex_rec_cont_phone,
+			t.ex_pay_type                     	AS ex_pay_type,
+			t.ex_pay_amt                      	AS ex_pay_amt,
+			t.ex_curr_type                    	AS ex_curr_type,
+			t.ex_sys_io_flg                   	AS ex_sys_io_flg,
+			t.ex_is_same_city                 	AS ex_is_same_city,
+			t.ex_prop                         	AS ex_prop,
+			t.ex_pay_bus_type                 	AS ex_pay_bus_type,
+			t.ex_summary                      	AS ex_summary,
+			t.ex_post_script                  	AS ex_post_script,
+			t.ex_req_resvered1                	AS ex_req_resvered1,
+			t.ex_req_resvered2                	AS ex_req_resvered2,
+			t.creator                         	AS creator,
+			t.modifier                        	AS modifier,
+			t.create_time                     	AS create_time,
+			t.last_modifi_time                	AS last_modifi_time
+		from t_ex_pay_single_instruction_int t
+	</select>
+
+
+</mapper>

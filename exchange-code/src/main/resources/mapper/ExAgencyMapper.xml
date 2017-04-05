@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.common.dao.ExAgencyMapper">
+
+	<insert id="addExAgency" parameterType="com.iss.exchange.core.common.entity.ExAgency">
+		insert into t_ex_agency(ex_agency_name,ex_parent_agency_id,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exAgencyName},''),IFNULL(#{exParentAgencyId},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExAgency" parameterType="java.util.List">
+		insert into t_ex_agency(ex_agency_name,ex_parent_agency_id,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exAgencyName},''),IFNULL(#{item.exParentAgencyId},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExAgency" parameterType="String">
+		delete from t_ex_agency  where ex_agency_code = #{exAgencyCode}
+	</delete>
+
+	<delete id="batchDeleteExAgency" parameterType="java.util.List">
+		delete from t_ex_agency  where ex_agency_code in
+		<foreach collection="exAgencyCodeList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExAgency" parameterType="com.iss.exchange.core.common.entity.ExAgency">
+		update t_ex_agency set 
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exAgencyName!= null">ex_agency_name=#{exAgencyName},</if>
+			<if test="exParentAgencyId!= null">ex_parent_agency_id=#{exParentAgencyId},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_agency_code = #{exAgencyCode}
+	</update>
+
+	<select id="getExAgency" parameterType="String" resultType="com.iss.exchange.core.common.entity.ExAgency">
+		select
+			ex_agency_code      	AS exAgencyCode,
+			ex_agency_name      	AS exAgencyName,
+			ex_parent_agency_id 	AS exParentAgencyId,
+			creator             	AS creator,
+			modifier            	AS modifier,
+			create_time         	AS createTime,
+			last_modifi_time    	AS lastModifiTime
+		from t_ex_agency
+		where ex_agency_code = #{exAgencyCode}
+	</select>
+
+	<select id="getExAgencyList" parameterType="com.iss.exchange.core.common.entity.ExAgency" resultType="com.iss.exchange.core.common.entity.ExAgency">
+		select
+			ex_agency_code      	AS exAgencyCode,
+			ex_agency_name      	AS exAgencyName,
+			ex_parent_agency_id 	AS exParentAgencyId,
+			creator             	AS creator,
+			modifier            	AS modifier,
+			create_time         	AS createTime,
+			last_modifi_time    	AS lastModifiTime
+		from t_ex_agency
+		where ex_agency_code = #{exAgencyCode}
+	</select>
+
+	<resultMap id="exAgencyDTO" type="com.iss.exchange.core.common.dto.ExAgencyDTO" >
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_agency_name"  property="exAgencyName"/>
+		<result column="ex_parent_agency_id"  property="exParentAgencyId"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExAgencyDTO" parameterType="String" resultMap="exAgencyDTO">
+		select
+			t.ex_agency_code      	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_agency_name      	AS ex_agency_name,
+			t.ex_parent_agency_id 	AS ex_parent_agency_id,
+			t.creator             	AS creator,
+			t.modifier            	AS modifier,
+			t.create_time         	AS create_time,
+			t.last_modifi_time    	AS last_modifi_time
+		from t_ex_agency t
+		where ex_agency_code = #{exAgencyCode}
+	</select>
+
+	<select id="getExAgencyPageList" parameterType="com.iss.exchange.core.common.entity.ExAgency" resultMap="exAgencyDTO">
+		select
+			t.ex_agency_code      	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_agency_name      	AS ex_agency_name,
+			t.ex_parent_agency_id 	AS ex_parent_agency_id,
+			t.creator             	AS creator,
+			t.modifier            	AS modifier,
+			t.create_time         	AS create_time,
+			t.last_modifi_time    	AS last_modifi_time
+		from t_ex_agency t
+	</select>
+
+
+</mapper>

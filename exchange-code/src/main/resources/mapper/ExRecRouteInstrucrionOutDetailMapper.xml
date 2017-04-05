@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.rec.dao.ExRecRouteInstrucrionOutDetailMapper">
+
+	<insert id="addExRecRouteInstrucrionOutDetail" parameterType="com.iss.exchange.core.rec.entity.ExRecRouteInstrucrionOutDetail">
+		insert into t_ex_rec_route_instrucrion_out_detail(ex_rec_route_instruction_int_detail_id,ex_rec_route_instrutction_out_id,ex_order_id,ex_order_no,ex_order_bank_no,ex_bank_status,ex_iRet_code,ex_iRet_message,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exRecRouteInstructionIntDetailId},''),IFNULL(#{exRecRouteInstrutctionOutId},''),IFNULL(#{exOrderId},''),IFNULL(#{exOrderNo},''),IFNULL(#{exOrderBankNo},''),IFNULL(#{exBankStatus},''),IFNULL(#{exIretCode},''),IFNULL(#{exIretMessage},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExRecRouteInstrucrionOutDetail" parameterType="java.util.List">
+		insert into t_ex_rec_route_instrucrion_out_detail(ex_rec_route_instruction_int_detail_id,ex_rec_route_instrutction_out_id,ex_order_id,ex_order_no,ex_order_bank_no,ex_bank_status,ex_iRet_code,ex_iRet_message,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exRecRouteInstructionIntDetailId},''),IFNULL(#{item.exRecRouteInstrutctionOutId},''),IFNULL(#{item.exOrderId},''),IFNULL(#{item.exOrderNo},''),IFNULL(#{item.exOrderBankNo},''),IFNULL(#{item.exBankStatus},''),IFNULL(#{item.exIretCode},''),IFNULL(#{item.exIretMessage},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExRecRouteInstrucrionOutDetail" parameterType="BigInteger">
+		delete from t_ex_rec_route_instrucrion_out_detail  where ex_rec_route_instrucrion_out_detail_id = #{exRecRouteInstrucrionOutDetailId}
+	</delete>
+
+	<delete id="batchDeleteExRecRouteInstrucrionOutDetail" parameterType="java.util.List">
+		delete from t_ex_rec_route_instrucrion_out_detail  where ex_rec_route_instrucrion_out_detail_id in
+		<foreach collection="exRecRouteInstrucrionOutDetailIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExRecRouteInstrucrionOutDetail" parameterType="com.iss.exchange.core.rec.entity.ExRecRouteInstrucrionOutDetail">
+		update t_ex_rec_route_instrucrion_out_detail set 
+			<if test="exRecRouteInstrucrionOutDetailId!= null">ex_rec_route_instrucrion_out_detail_id=#{exRecRouteInstrucrionOutDetailId},</if>
+			<if test="exRecRouteInstructionIntDetailId!= null">ex_rec_route_instruction_int_detail_id=#{exRecRouteInstructionIntDetailId},</if>
+			<if test="exRecRouteInstrutctionOutId!= null">ex_rec_route_instrutction_out_id=#{exRecRouteInstrutctionOutId},</if>
+			<if test="exOrderId!= null">ex_order_id=#{exOrderId},</if>
+			<if test="exOrderNo!= null">ex_order_no=#{exOrderNo},</if>
+			<if test="exOrderBankNo!= null">ex_order_bank_no=#{exOrderBankNo},</if>
+			<if test="exBankStatus!= null">ex_bank_status=#{exBankStatus},</if>
+			<if test="exIretCode!= null">ex_iRet_code=#{exIretCode},</if>
+			<if test="exIretMessage!= null">ex_iRet_message=#{exIretMessage},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_rec_route_instrucrion_out_detail_id = #{exRecRouteInstrucrionOutDetailId}
+	</update>
+
+	<select id="getExRecRouteInstrucrionOutDetail" parameterType="BigInteger" resultType="com.iss.exchange.core.rec.entity.ExRecRouteInstrucrionOutDetail">
+		select
+			ex_rec_route_instrucrion_out_detail_id 	AS exRecRouteInstrucrionOutDetailId,
+			ex_rec_route_instruction_int_detail_id 	AS exRecRouteInstructionIntDetailId,
+			ex_rec_route_instrutction_out_id       	AS exRecRouteInstrutctionOutId,
+			ex_order_id                            	AS exOrderId,
+			ex_order_no                            	AS exOrderNo,
+			ex_order_bank_no                       	AS exOrderBankNo,
+			ex_bank_status                         	AS exBankStatus,
+			ex_iRet_code                           	AS exIretCode,
+			ex_iRet_message                        	AS exIretMessage,
+			creator                                	AS creator,
+			modifier                               	AS modifier,
+			create_time                            	AS createTime,
+			last_modifi_time                       	AS lastModifiTime
+		from t_ex_rec_route_instrucrion_out_detail
+		where ex_rec_route_instrucrion_out_detail_id = #{exRecRouteInstrucrionOutDetailId}
+	</select>
+
+	<select id="getExRecRouteInstrucrionOutDetailList" parameterType="com.iss.exchange.core.rec.entity.ExRecRouteInstrucrionOutDetail" resultType="com.iss.exchange.core.rec.entity.ExRecRouteInstrucrionOutDetail">
+		select
+			ex_rec_route_instrucrion_out_detail_id 	AS exRecRouteInstrucrionOutDetailId,
+			ex_rec_route_instruction_int_detail_id 	AS exRecRouteInstructionIntDetailId,
+			ex_rec_route_instrutction_out_id       	AS exRecRouteInstrutctionOutId,
+			ex_order_id                            	AS exOrderId,
+			ex_order_no                            	AS exOrderNo,
+			ex_order_bank_no                       	AS exOrderBankNo,
+			ex_bank_status                         	AS exBankStatus,
+			ex_iRet_code                           	AS exIretCode,
+			ex_iRet_message                        	AS exIretMessage,
+			creator                                	AS creator,
+			modifier                               	AS modifier,
+			create_time                            	AS createTime,
+			last_modifi_time                       	AS lastModifiTime
+		from t_ex_rec_route_instrucrion_out_detail
+		where ex_rec_route_instrucrion_out_detail_id = #{exRecRouteInstrucrionOutDetailId}
+	</select>
+
+	<resultMap id="exRecRouteInstrucrionOutDetailDTO" type="com.iss.exchange.core.rec.dto.ExRecRouteInstrucrionOutDetailDTO" >
+		<result column="ex_rec_route_instrucrion_out_detail_id"  property="exRecRouteInstrucrionOutDetailId"/>
+		<result column="ex_rec_route_instruction_int_detail_id"  property="exRecRouteInstructionIntDetailId"/>
+		<result column="ex_rec_route_instrutction_out_id"  property="exRecRouteInstrutctionOutId"/>
+		<result column="ex_order_id"  property="exOrderId"/>
+		<result column="ex_order_no"  property="exOrderNo"/>
+		<result column="ex_order_bank_no"  property="exOrderBankNo"/>
+		<result column="ex_bank_status"  property="exBankStatus"/>
+		<result column="ex_iRet_code"  property="exIretCode"/>
+		<result column="ex_iRet_desc"  property="exIretDesc"/>
+		<result column="ex_iRet_message"  property="exIretMessage"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExRecRouteInstrucrionOutDetailDTO" parameterType="BigInteger" resultMap="exRecRouteInstrucrionOutDetailDTO">
+		select
+			t.ex_rec_route_instrucrion_out_detail_id 	AS ex_rec_route_instrucrion_out_detail_id,
+			t.ex_rec_route_instruction_int_detail_id 	AS ex_rec_route_instruction_int_detail_id,
+			t.ex_rec_route_instrutction_out_id       	AS ex_rec_route_instrutction_out_id,
+			t.ex_order_id                            	AS ex_order_id,
+			t.ex_order_no                            	AS ex_order_no,
+			t.ex_order_bank_no                       	AS ex_order_bank_no,
+			t.ex_bank_status                         	AS ex_bank_status,
+			t.ex_iRet_code                           	AS ex_iRet_code,
+			(select code_desc from  where code_type = 'exIretCode' and code = t.ex_iRet_code)	AS ex_iRet_desc,
+			t.ex_iRet_message                        	AS ex_iRet_message,
+			t.creator                                	AS creator,
+			t.modifier                               	AS modifier,
+			t.create_time                            	AS create_time,
+			t.last_modifi_time                       	AS last_modifi_time
+		from t_ex_rec_route_instrucrion_out_detail t
+		where ex_rec_route_instrucrion_out_detail_id = #{exRecRouteInstrucrionOutDetailId}
+	</select>
+
+	<select id="getExRecRouteInstrucrionOutDetailPageList" parameterType="com.iss.exchange.core.rec.entity.ExRecRouteInstrucrionOutDetail" resultMap="exRecRouteInstrucrionOutDetailDTO">
+		select
+			t.ex_rec_route_instrucrion_out_detail_id 	AS ex_rec_route_instrucrion_out_detail_id,
+			t.ex_rec_route_instruction_int_detail_id 	AS ex_rec_route_instruction_int_detail_id,
+			t.ex_rec_route_instrutction_out_id       	AS ex_rec_route_instrutction_out_id,
+			t.ex_order_id                            	AS ex_order_id,
+			t.ex_order_no                            	AS ex_order_no,
+			t.ex_order_bank_no                       	AS ex_order_bank_no,
+			t.ex_bank_status                         	AS ex_bank_status,
+			t.ex_iRet_code                           	AS ex_iRet_code,
+			(select code_desc from  where code_type = 'exIretCode' and code = t.ex_iRet_code)	AS ex_iRet_desc,
+			t.ex_iRet_message                        	AS ex_iRet_message,
+			t.creator                                	AS creator,
+			t.modifier                               	AS modifier,
+			t.create_time                            	AS create_time,
+			t.last_modifi_time                       	AS last_modifi_time
+		from t_ex_rec_route_instrucrion_out_detail t
+	</select>
+
+
+</mapper>

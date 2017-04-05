@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.iss.exchange.core.common.dao.ExBankSerialRuleMapper">
+
+	<insert id="addExBankSerialRule" parameterType="com.iss.exchange.core.common.entity.ExBankSerialRule">
+		insert into t_ex_bank_serial_rule(ex_agency_code,ex_bank_type_code,ex_package_length,ex_package_head,ex_package_body,creator,modifier,create_time,last_modifi_time) 
+		values(IFNULL(#{exAgencyCode},''),IFNULL(#{exBankTypeCode},''),IFNULL(#{exPackageLength},''),IFNULL(#{exPackageHead},''),IFNULL(#{exPackageBody},''),IFNULL(#{creator},''),IFNULL(#{modifier},''),now(),#{lastModifiTime})
+	</insert>
+
+	<insert id="batchAddExBankSerialRule" parameterType="java.util.List">
+		insert into t_ex_bank_serial_rule(ex_agency_code,ex_bank_type_code,ex_package_length,ex_package_head,ex_package_body,creator,modifier,create_time,last_modifi_time)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+		(IFNULL(#{item.exAgencyCode},''),IFNULL(#{item.exBankTypeCode},''),IFNULL(#{item.exPackageLength},''),IFNULL(#{item.exPackageHead},''),IFNULL(#{item.exPackageBody},''),IFNULL(#{item.creator},''),IFNULL(#{item.modifier},''),now(),#{item.lastModifiTime})
+		</foreach>
+	</insert>
+
+	<delete id="deleteExBankSerialRule" parameterType="BigInteger">
+		delete from t_ex_bank_serial_rule  where ex_bank_serial_rule_id = #{exBankSerialRuleId}
+	</delete>
+
+	<delete id="batchDeleteExBankSerialRule" parameterType="java.util.List">
+		delete from t_ex_bank_serial_rule  where ex_bank_serial_rule_id in
+		<foreach collection="exBankSerialRuleIdList" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+
+	<update id="updateExBankSerialRule" parameterType="com.iss.exchange.core.common.entity.ExBankSerialRule">
+		update t_ex_bank_serial_rule set 
+			<if test="exBankSerialRuleId!= null">ex_bank_serial_rule_id=#{exBankSerialRuleId},</if>
+			<if test="exAgencyCode!= null">ex_agency_code=#{exAgencyCode},</if>
+			<if test="exBankTypeCode!= null">ex_bank_type_code=#{exBankTypeCode},</if>
+			<if test="exPackageLength!= null">ex_package_length=#{exPackageLength},</if>
+			<if test="exPackageHead!= null">ex_package_head=#{exPackageHead},</if>
+			<if test="exPackageBody!= null">ex_package_body=#{exPackageBody},</if>
+			modifier=#{modifier},
+			<if test="lastModifiTime!= null">last_modifi_time=#{lastModifiTime},</if>
+
+		where ex_bank_serial_rule_id = #{exBankSerialRuleId}
+	</update>
+
+	<select id="getExBankSerialRule" parameterType="BigInteger" resultType="com.iss.exchange.core.common.entity.ExBankSerialRule">
+		select
+			ex_bank_serial_rule_id 	AS exBankSerialRuleId,
+			ex_agency_code         	AS exAgencyCode,
+			ex_bank_type_code      	AS exBankTypeCode,
+			ex_package_length      	AS exPackageLength,
+			ex_package_head        	AS exPackageHead,
+			ex_package_body        	AS exPackageBody,
+			creator                	AS creator,
+			modifier               	AS modifier,
+			create_time            	AS createTime,
+			last_modifi_time       	AS lastModifiTime
+		from t_ex_bank_serial_rule
+		where ex_bank_serial_rule_id = #{exBankSerialRuleId}
+	</select>
+
+	<select id="getExBankSerialRuleList" parameterType="com.iss.exchange.core.common.entity.ExBankSerialRule" resultType="com.iss.exchange.core.common.entity.ExBankSerialRule">
+		select
+			ex_bank_serial_rule_id 	AS exBankSerialRuleId,
+			ex_agency_code         	AS exAgencyCode,
+			ex_bank_type_code      	AS exBankTypeCode,
+			ex_package_length      	AS exPackageLength,
+			ex_package_head        	AS exPackageHead,
+			ex_package_body        	AS exPackageBody,
+			creator                	AS creator,
+			modifier               	AS modifier,
+			create_time            	AS createTime,
+			last_modifi_time       	AS lastModifiTime
+		from t_ex_bank_serial_rule
+		where ex_bank_serial_rule_id = #{exBankSerialRuleId}
+	</select>
+
+	<resultMap id="exBankSerialRuleDTO" type="com.iss.exchange.core.common.dto.ExBankSerialRuleDTO" >
+		<result column="ex_bank_serial_rule_id"  property="exBankSerialRuleId"/>
+		<result column="ex_agency_code"  property="exAgencyCode"/>
+		<result column="ex_agency_desc"  property="exAgencyDesc"/>
+		<result column="ex_bank_type_code"  property="exBankTypeCode"/>
+		<result column="ex_bank_type_desc"  property="exBankTypeDesc"/>
+		<result column="ex_package_length"  property="exPackageLength"/>
+		<result column="ex_package_head"  property="exPackageHead"/>
+		<result column="ex_package_body"  property="exPackageBody"/>
+		<result column="creator"  property="creator"/>
+		<result column="modifier"  property="modifier"/>
+		<result column="create_time"  property="createTime"/>
+		<result column="last_modifi_time"  property="lastModifiTime"/>
+	</resultMap>
+
+	<select id="getExBankSerialRuleDTO" parameterType="BigInteger" resultMap="exBankSerialRuleDTO">
+		select
+			t.ex_bank_serial_rule_id 	AS ex_bank_serial_rule_id,
+			t.ex_agency_code         	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_bank_type_code      	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_package_length      	AS ex_package_length,
+			t.ex_package_head        	AS ex_package_head,
+			t.ex_package_body        	AS ex_package_body,
+			t.creator                	AS creator,
+			t.modifier               	AS modifier,
+			t.create_time            	AS create_time,
+			t.last_modifi_time       	AS last_modifi_time
+		from t_ex_bank_serial_rule t
+		where ex_bank_serial_rule_id = #{exBankSerialRuleId}
+	</select>
+
+	<select id="getExBankSerialRulePageList" parameterType="com.iss.exchange.core.common.entity.ExBankSerialRule" resultMap="exBankSerialRuleDTO">
+		select
+			t.ex_bank_serial_rule_id 	AS ex_bank_serial_rule_id,
+			t.ex_agency_code         	AS ex_agency_code,
+			(select code_desc from  where code_type = 'exAgencyCode' and code = t.ex_agency_code)	AS ex_agency_desc,
+			t.ex_bank_type_code      	AS ex_bank_type_code,
+			(select code_desc from  where code_type = 'exBankTypeCode' and code = t.ex_bank_type_code)	AS ex_bank_type_desc,
+			t.ex_package_length      	AS ex_package_length,
+			t.ex_package_head        	AS ex_package_head,
+			t.ex_package_body        	AS ex_package_body,
+			t.creator                	AS creator,
+			t.modifier               	AS modifier,
+			t.create_time            	AS create_time,
+			t.last_modifi_time       	AS last_modifi_time
+		from t_ex_bank_serial_rule t
+	</select>
+
+
+</mapper>
