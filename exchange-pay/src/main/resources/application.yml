@@ -1,4 +1,4 @@
-upp:
+ExchangePay:
     appID: exchange_pay
     environment: dev
 server:

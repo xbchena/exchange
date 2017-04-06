@@ -1,4 +1,4 @@
-package com.wanda.osp.finanframe.nosql.redis.impl;
+package com.iss.finanframe.nosql.redis.impl;
 
 import java.lang.reflect.Method;
 
@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.iss.finanframe.nosql.redis.BaseCacheKey;
 import com.iss.finanframe.nosql.redis.Cacheable;
-import com.wanda.finanframe.nosql.redis.util.Redis;
-import com.wanda.uap.entity.cache.BaseCacheKey;
+import com.iss.finanframe.nosql.redis.util.Redis;
 
 import javassist.bytecode.SignatureAttribute.MethodSignature;
 
