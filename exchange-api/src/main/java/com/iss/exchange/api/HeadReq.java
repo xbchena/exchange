@@ -1,5 +1,7 @@
 package com.iss.exchange.api;
 
+import com.alibaba.fastjson.JSON;
+
 public class HeadReq {
 	private String version;// 	版本
 	private String OrgId;//	组织机构代码
@@ -58,4 +60,14 @@ public class HeadReq {
 		TxPackNo = txPackNo;
 	}
 
+	public static void main(String[] args) {
+		HeadReq req = new HeadReq();
+		req.setLoginId("id");
+		req.setLoginPwd("pwd");
+//		System.out.println(JSON.toJSONString(req));
+		String reqs = JSON.toJSONString(req);
+		HeadReq res = JSON.parseObject(reqs, HeadReq.class);
+		System.out.println(res.getLoginId());
+		
+	}
 }

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: exchange-pay-batch
+server:
+  port: 8754
+eureka:
+  client:
+    serviceUrl:
+     defaultZone: http://peer2:8761/eureka/
+    
+      
+      

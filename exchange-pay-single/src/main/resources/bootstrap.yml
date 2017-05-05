@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: exchange-pay-batch
+  cloud:
+    config:
+      enabled: true  # 是否远程配置文件;true使用，false 不使用用
+      profile: dev   # 版本名称
+      discovery:
+        service-id: configserver  # 配置服务中心application 名称
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: 12345678
+eureka:
+  client:
+    service-url: 
+      defaultZone: http://peer2:8761/eureka/  #eureka 服务地址
+      
+     
+     
