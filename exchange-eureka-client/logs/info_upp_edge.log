@@ -1,0 +1,31 @@
+2017-04-24 10:07:22.098 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - No active profile set, falling back to default profiles: default
+2017-04-24 10:07:26.452 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 6.866 seconds (JVM running for 8.11)
+2017-04-24 10:10:17.545 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:14:49.087 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:14:53.101 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 12.39 seconds (JVM running for 13.609)
+2017-04-24 10:27:25.434 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:27:29.313 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 12.989 seconds (JVM running for 14.134)
+2017-04-24 10:32:19.762 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:32:23.766 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 21.83 seconds (JVM running for 22.983)
+2017-04-24 10:34:39.936 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:34:44.381 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 8.142 seconds (JVM running for 8.68)
+2017-04-24 10:46:06.957 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:46:11.455 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 7.23 seconds (JVM running for 7.747)
+2017-04-24 10:47:15.417 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:47:19.938 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 7.214 seconds (JVM running for 7.729)
+2017-04-24 10:48:39.381 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:48:43.821 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 8.079 seconds (JVM running for 8.622)
+2017-04-24 10:56:01.946 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - No active profile set, falling back to default profiles: default
+2017-04-24 10:56:04.843 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 8.507 seconds (JVM running for 9.704)
+2017-04-24 10:56:48.597 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - No active profile set, falling back to default profiles: default
+2017-04-24 10:57:31.521 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:57:36.054 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 8.101 seconds (JVM running for 8.639)
+2017-04-24 10:58:13.782 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 10:58:43.316 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - The following profiles are active: dev
+2017-04-24 11:05:15.323 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - No active profile set, falling back to default profiles: default
+2017-04-24 11:05:18.203 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 8.778 seconds (JVM running for 9.975)
+2017-04-24 11:06:11.194 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - No active profile set, falling back to default profiles: default
+2017-04-24 11:11:22.442 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - No active profile set, falling back to default profiles: default
+2017-04-24 11:11:26.937 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 8.985 seconds (JVM running for 9.508)
+2017-04-24 11:11:55.907 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - No active profile set, falling back to default profiles: default
+2017-04-24 11:12:00.359 [main] INFO  com.iss.exchange.ExchangeEurekaClientApplication - Started ExchangeEurekaClientApplication in 9.369 seconds (JVM running for 9.889)

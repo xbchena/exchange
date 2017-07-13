@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: exchange-service-ribbon
+server:
+  port: 8421
+eureka:
+  client:
+    serviceUrl:
+      defauleZone: http://127.0.0.1:8761/eureka/
+  
+exchange: 
+  pay:  
+    batchApp: http://exchange-pay-batch/*
+    singleApp: http://exchange-pay-single/*
+    routeApp: http://exchange-pay-route/*
+  rec: 
+    batchApp: http://exchange-rec-batch/*
+    singleApp: http://exchange-rec-single/*
+    routeApp: http://exchange-rec-route/*
+  connectionTime: 6000
+  readTime: 6000
+    

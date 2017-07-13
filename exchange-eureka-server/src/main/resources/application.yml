@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: exchange-eureka-server
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: peer1
+  client:
+   prefer-same-zone-eureka: true #eureka 客户端与服务端在同一个zone下，默认true
+   registerWithEureka: false # 此实例在eureka上注册中心是否被其他服务发现，默认 false 
+   fetchRegistry: false #此客户端是否从eureka注册表中读取注册信息，默认false
+   serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+#  server:
+#    enable-self-preservation: true #false表示在此eureka服务器中关闭自我保护模式，所谓自我保护模式是指，
+#   出现网络分区、eureka在短时间内丢失过
+#  多客户端时，会进入自我保护模式，即一个服务长时间没有发送心跳，eureka也不会将其删除。默认为true：

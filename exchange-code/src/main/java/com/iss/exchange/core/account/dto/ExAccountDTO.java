@@ -18,5 +18,4 @@ public class ExAccountDTO extends ExAccount implements BaseDTO{
 	@ApiModelProperty("人行大小额支付系统行号描述")
 	private String cnapsDesc;
 
-
 }

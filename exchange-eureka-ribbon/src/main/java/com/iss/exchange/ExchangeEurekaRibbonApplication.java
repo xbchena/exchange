@@ -1,14 +1,17 @@
-package com.iss.exchange.pay.single;
+package com.iss.exchange;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class ExchangePaySingleApplication {
+@EnableHystrix
+public class ExchangeEurekaRibbonApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExchangePaySingleApplication.class, args);
+		SpringApplication.run(ExchangeEurekaRibbonApplication.class, args);
 	}
+
 }

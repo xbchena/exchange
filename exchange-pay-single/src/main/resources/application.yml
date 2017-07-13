@@ -1,12 +1,35 @@
 spring:
   application:
-    name: exchange-pay-batch
+    name: exchange-pay-single
 server:
-  port: 8754
+  port: 8755
 eureka:
   client:
     serviceUrl:
-     defaultZone: http://peer2:8761/eureka/
-    
+     defaultZone: http://127.0.0.1:8761/eureka/
+datasource: 
+  dataSource:
+    url: jdbc:mysql://localhost:3306/upp?useUnicode=true&amp;characterEncoding=UTF-8
+    username: root
+    password: 123456
+    driverClassName: com.mysql.jdbc.Driver
+    maxActive: 50
+    initialSize: 5
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+redis:
+  enabled: true
+  database: 10
+  master:
+    ip: 127.0.0.1
+    port: 6379
       
       

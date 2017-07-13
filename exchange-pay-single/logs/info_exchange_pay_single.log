@@ -1,0 +1,12 @@
+2017-05-08 14:54:12.874 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - No active profile set, falling back to default profiles: default
+2017-05-08 14:54:16.058 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - Started ExchangePaySingleApplication in 6.868 seconds (JVM running for 8.081)
+2017-05-08 14:55:36.294 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - No active profile set, falling back to default profiles: default
+2017-05-08 14:55:39.493 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - Started ExchangePaySingleApplication in 6.327 seconds (JVM running for 7.576)
+2017-05-08 14:56:14.735 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - No active profile set, falling back to default profiles: default
+2017-05-08 14:56:17.917 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - Started ExchangePaySingleApplication in 6.644 seconds (JVM running for 7.826)
+2017-05-08 14:57:05.972 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - No active profile set, falling back to default profiles: default
+2017-05-08 14:57:09.155 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - Started ExchangePaySingleApplication in 7.845 seconds (JVM running for 9.115)
+2017-05-08 15:00:01.258 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - No active profile set, falling back to default profiles: default
+2017-05-08 15:00:05.673 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - Started ExchangePaySingleApplication in 9.101 seconds (JVM running for 10.327)
+2017-05-08 15:00:34.850 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - No active profile set, falling back to default profiles: default
+2017-05-08 15:00:39.182 [main] INFO  c.i.e.pay.single.ExchangePaySingleApplication - Started ExchangePaySingleApplication in 7.877 seconds (JVM running for 9.066)
